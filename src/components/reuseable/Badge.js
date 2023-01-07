@@ -1,9 +1,13 @@
 import { Button } from "@mui/material";
 
-const Badge = ({ children }) => {
+const Badge = ({ children, className }) => {
   return (
     <div>
-      <Button sx={{ textTransform: "inherit" }} variant="outlined">
+      <Button
+        className={`${className}`}
+        sx={{ textTransform: "inherit" }}
+        variant="outlined"
+      >
         {children}
       </Button>
     </div>

@@ -83,33 +83,51 @@ const Landing = () => {
         <Grid xs={2} sm={4} md={6}>
           <Box sx={{ maxWidth: 500 }}>
             <Typography
+              id="hero-title"
               sx={{ fontSize: { xs: 30, md: 48 }, fontWeight: 700, my: 2 }}
               variant="h1"
             >
               Find the perfect <br /> job for you
             </Typography>
             <Typography
+              id="hero-subtitle"
               sx={{ fontSize: { xs: 16, md: 22 }, mb: 2 }}
               variant="body1"
             >
               Search your career opportunity <br /> through 12,800+ jobs
             </Typography>
-            <Box className={homeStyles.searchBox}>
+            <Box id="search-container" className={homeStyles.searchBox}>
               <TextField
+                id="search"
                 label="Job title or Keyword"
                 variant="outlined"
                 fullWidth
                 type="search"
                 sx={{ borderRadius: "100px" }}
               />
-              <Button sx={{ borderRadius: 8 }} variant="contained">
+              <Button
+                id="search-button"
+                sx={{ borderRadius: 8 }}
+                variant="contained"
+              >
                 <BiSearchAlt />
               </Button>
             </Box>
-            <Box sx={{ mt: 2, display: "flex", flexWrap: "wrap", gap: 1 }}>
-              {keywords.map((item) => (
-                <Badge key={item}>{item}</Badge>
-              ))}
+            <Box>
+              <Typography
+                sx={{ fontSize: 20, fontWeight: 700, my: 2 }}
+                variant="h2"
+                className="badge-container"
+              >
+                Popular Search
+              </Typography>
+              <Box sx={{ mt: 2, display: "flex", flexWrap: "wrap", gap: 1 }}>
+                {keywords.map((item) => (
+                  <Badge key={item} className="badge">
+                    {item}
+                  </Badge>
+                ))}
+              </Box>
             </Box>
           </Box>
         </Grid>
