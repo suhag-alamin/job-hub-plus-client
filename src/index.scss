@@ -1,7 +1,8 @@
 /* google fonts */
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@500;700&family=Roboto&display=swap");
-
+@import "./styles/variable.module.scss";
 /* reset style  */
+
 * {
   margin: 0;
   padding: 0;
@@ -10,6 +11,7 @@
 body {
   font-family: "Roboto", sans-serif;
   font-weight: 400;
+  color: $text-color;
 }
 h1,
 h2,

@@ -1,0 +1,39 @@
+@import "./variable.module.scss";
+/* navbar style  */
+.logo {
+  width: 70%;
+}
+
+.navLink {
+  font-size: 18px;
+  padding: 5px 10px;
+  font-weight: 500;
+  transition: 0.4s;
+  position: relative;
+  &hover {
+    color: $primary-color;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    /* right: 0; */
+    margin: auto;
+    width: 0%;
+    height: 1px;
+    background: $primary-color;
+    transition: 0.5s;
+  }
+}
+
+.navLink:hover.navLink::after {
+  width: 90%;
+}
+
+.navSelected {
+  color: $primary-color;
+  font-size: 18px;
+  font-weight: 700 !important;
+  padding: 5px 10px;
+}

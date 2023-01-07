@@ -12,7 +12,7 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { RiLoginCircleFill, RiLogoutCircleFill } from "react-icons/ri";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
-import navStyles from "../../styles/Navbar.module.css";
+import navStyles from "../../styles/Navbar.module.scss";
 
 // navbar
 const Navbar = (props) => {
@@ -124,10 +124,7 @@ const Navbar = (props) => {
               </Link>
 
               <Box sx={{ display: { xs: "none", md: "block" } }}>
-                <nav
-                  className={navStyles.navbar}
-                  style={{ display: "flex", alignItems: "center" }}
-                >
+                <nav style={{ display: "flex", alignItems: "center" }}>
                   <NavLink
                     className={(navInfo) =>
                       navInfo.isActive
