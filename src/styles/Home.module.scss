@@ -1,0 +1,13 @@
+@import "./variable.module.scss";
+
+.searchBox {
+  position: relative;
+  margin: 40px 0;
+  button {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-size: 30px;
+  }
+}

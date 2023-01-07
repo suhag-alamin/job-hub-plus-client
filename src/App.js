@@ -24,6 +24,9 @@ const theme = createTheme({
     },
     divider: "#55FFCC",
   },
+  typography: {
+    fontFamily: ["Ralway", "Roboto"].join(","),
+  },
 });
 
 function App() {
