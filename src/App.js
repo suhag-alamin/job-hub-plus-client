@@ -1,56 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+import React from "react";
+import { RouterProvider } from "react-router-dom";
+import "./App.css";
+import routes from "./routes/routes";
+
+const theme = createTheme({
+  palette: {
+    mode: "light",
+    primary: {
+      main: "#0B4F6C",
+    },
+    secondary: {
+      main: "#2A9D8F",
+    },
+    success: {
+      main: "#55FFCC",
+    },
+    error: {
+      main: "#FE5F55",
+    },
+    text: {
+      primary: "#1C1018",
+      secondary: "#0B4F6C",
+    },
+    divider: "#55FFCC",
+  },
+});
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+      <ThemeProvider theme={theme}>
+        <CssBaseline>
+          <RouterProvider router={routes} />
+        </CssBaseline>
+      </ThemeProvider>
     </div>
   );
 }
