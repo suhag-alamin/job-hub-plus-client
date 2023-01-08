@@ -1,12 +1,13 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { gsap } from "gsap";
+import { useLayoutEffect, useRef } from "react";
 import { BiSearchAlt } from "react-icons/bi";
 import hero1 from "../../../assets/images/hero-01.jpg";
 import hero2 from "../../../assets/images/hero-02.jpg";
 import hero3 from "../../../assets/images/hero-03.jpg";
+import hero4 from "../../../assets/images/hero-04.jpg";
 import Badge from "../../../components/reuseable/Badge";
 import homeStyles from "../../../styles/Home.module.scss";
-import { gsap } from "gsap";
-import { useLayoutEffect, useRef } from "react";
 
 const Landing = () => {
   const keywords = [
@@ -35,7 +36,9 @@ const Landing = () => {
         .to("#hero2", { opacity: 1, duration: 2 })
         .to("#hero2", { opacity: 0, display: "none", duration: 2, delay: 1 })
         .to("#hero3", { opacity: 1, duration: 2 })
-        .to("#hero3", { opacity: 0, display: "none", duration: 2, delay: 1 });
+        .to("#hero3", { opacity: 0, display: "none", duration: 2, delay: 1 })
+        .to("#hero4", { opacity: 1, duration: 2 })
+        .to("#hero4", { opacity: 0, display: "none", duration: 2, delay: 1 });
 
       tl2.current = gsap
         .timeline()
@@ -236,6 +239,7 @@ const Landing = () => {
         <img id="hero1" src={hero1} alt="" className={homeStyles.heroImage} />
         <img id="hero2" src={hero2} alt="" className={homeStyles.heroImage} />
         <img id="hero3" src={hero3} alt="" className={homeStyles.heroImage} />
+        <img id="hero4" src={hero4} alt="" className={homeStyles.heroImage} />
       </Box>
     </Box>
   );
