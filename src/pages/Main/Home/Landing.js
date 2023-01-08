@@ -83,7 +83,7 @@ const Landing = () => {
         spacing={{ xs: 2, md: 3 }}
         columns={{ xs: 2, sm: 8, md: 12 }}
       >
-        <Grid xs={2} sm={4} md={6}>
+        <Grid item xs={2} sm={4} md={6}>
           <Box sx={{ maxWidth: 500 }}>
             <Typography
               id="hero-title"
@@ -134,7 +134,7 @@ const Landing = () => {
             </Box>
           </Box>
         </Grid>
-        <Grid xs={2} sm={4} md={6}>
+        <Grid item xs={2} sm={4} md={6}>
           <Box
             sx={{
               display: "flex",
