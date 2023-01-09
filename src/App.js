@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { RouterProvider } from "react-router-dom";
-import { setUser } from "./features/auth/authSlice";
+import { setUser, toggleIsLoading } from "./features/auth/authSlice";
 import auth from "./firebase/firebase.config";
 import routes from "./routes/routes";
 
@@ -37,11 +37,13 @@ const theme = createTheme({
 function App() {
   // set user or persist user
   const dispatch = useDispatch();
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log(user);
         dispatch(setUser(user?.email));
+      } else {
+        dispatch(toggleIsLoading());
       }
     });
   }, [dispatch]);

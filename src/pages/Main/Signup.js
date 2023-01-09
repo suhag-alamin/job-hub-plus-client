@@ -70,14 +70,10 @@ const Signup = () => {
     } else if (isError && !isSuccess) {
       toast.error(error, { id: "signup" });
     }
-  }, [isError, error, isSuccess]);
+  }, [isError, error, isSuccess, isLoading]);
 
   // handle submit
   const onSubmit = (data) => {
-    if (data.password !== data.password2) {
-      toast.error("Password doesn't match", { id: "password" });
-    }
-
     dispatch(createUser({ email: data.email, password: data.password }));
   };
 
