@@ -4,50 +4,6 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import * as React from "react";
 
-const CountrySelect = ({ setCountry }) => {
-  return (
-    <Autocomplete
-      fullWidth
-      options={countries}
-      autoHighlight
-      getOptionLabel={(option) => {
-        setCountry(option);
-        return option.label;
-      }}
-      renderOption={(props, option) => (
-        <Box
-          component="li"
-          sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
-          {...props}
-        >
-          <img
-            loading="lazy"
-            width="20"
-            src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-            srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-            alt=""
-          />
-          <Typography>{option.label}</Typography>
-        </Box>
-      )}
-      renderInput={(params) => (
-        <TextField
-          fullWidth
-          variant="filled"
-          {...params}
-          label="Choose a country"
-          inputProps={{
-            ...params.inputProps,
-            autoComplete: "new-country", // disable autocomplete and autofill
-          }}
-        />
-      )}
-    />
-  );
-};
-
-export default CountrySelect;
-
 const countries = [
   { code: "AD", label: "Andorra", phone: "376" },
   {
@@ -472,3 +428,47 @@ const countries = [
   { code: "ZM", label: "Zambia", phone: "260" },
   { code: "ZW", label: "Zimbabwe", phone: "263" },
 ];
+
+const CountrySelect = ({ setCountry }) => {
+  return (
+    <Autocomplete
+      fullWidth
+      options={countries}
+      autoHighlight
+      getOptionLabel={(option) => {
+        setCountry(option);
+        return option.label;
+      }}
+      renderOption={(props, option) => (
+        <Box
+          component="li"
+          sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+          {...props}
+        >
+          <img
+            loading="lazy"
+            width="20"
+            src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+            srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+            alt=""
+          />
+          <Typography>{option.label}</Typography>
+        </Box>
+      )}
+      renderInput={(params) => (
+        <TextField
+          fullWidth
+          variant="filled"
+          {...params}
+          label="Choose a country"
+          inputProps={{
+            ...params.inputProps,
+            autoComplete: "new-country", // disable autocomplete and autofill
+          }}
+        />
+      )}
+    />
+  );
+};
+
+export default CountrySelect;
