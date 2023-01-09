@@ -39,6 +39,10 @@ const authSlice = createSlice({
     toggleIsSuccess: (state) => {
       state.isSuccess = !state.isSuccess;
     },
+    logout: (state) => {
+      state.email = "";
+      state.role = "";
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -85,6 +89,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { toggleIsSuccess } = authSlice.actions;
+export const { toggleIsSuccess, logout } = authSlice.actions;
 
 export default authSlice.reducer;

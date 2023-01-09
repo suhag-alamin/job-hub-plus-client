@@ -6,13 +6,16 @@ import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
+import { signOut } from "firebase/auth";
 import PropTypes from "prop-types";
 import * as React from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { RiLoginCircleFill, RiLogoutCircleFill } from "react-icons/ri";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
+import { logout } from "../../features/auth/authSlice";
+import auth from "../../firebase/firebase.config";
 import navStyles from "../../styles/Navbar.module.scss";
 
 // navbar
@@ -21,6 +24,13 @@ const Navbar = (props) => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const { email } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  const handleLogOut = () => {
+    signOut(auth).then(() => {
+      dispatch(logout());
+    });
+  };
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -87,6 +97,7 @@ const Navbar = (props) => {
             )} */}
             <Divider />
             <Button
+              onClick={handleLogOut}
               sx={{
                 borderRadius: 8,
                 alignItems: "center",
@@ -193,6 +204,7 @@ const Navbar = (props) => {
                         />
                       )} */}
                       <Button
+                        onClick={handleLogOut}
                         sx={{
                           borderRadius: 8,
                           alignItems: "center",
