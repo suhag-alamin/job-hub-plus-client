@@ -75,10 +75,7 @@ const Login = () => {
                     /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/,
                 })}
               />
-              <FormControlLabel
-                control={<Checkbox defaultChecked />}
-                label="Remember me"
-              />
+              <FormControlLabel control={<Checkbox />} label="Remember me" />
 
               <Button
                 sx={{ textTransform: "inherit" }}

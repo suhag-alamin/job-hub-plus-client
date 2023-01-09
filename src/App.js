@@ -1,5 +1,6 @@
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import React from "react";
+import { Toaster } from "react-hot-toast";
 import { RouterProvider } from "react-router-dom";
 import routes from "./routes/routes";
 
@@ -34,6 +35,7 @@ function App() {
     <div className="App">
       <ThemeProvider theme={theme}>
         <CssBaseline>
+          <Toaster />
           <RouterProvider router={routes} />
         </CssBaseline>
       </ThemeProvider>
