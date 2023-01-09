@@ -1,0 +1,20 @@
+@import "./variable.module.scss";
+
+.imgBox {
+  text-align: center;
+  transition: 0.3s;
+  border: 1px solid transparent;
+  max-width: 400px;
+  margin: auto;
+  padding: 10px;
+  img {
+    width: 80%;
+    object-fit: cover;
+  }
+  &:hover {
+    transform: scale(1.1);
+    border: 1px solid $primary-color;
+    border-radius: 5px;
+    box-shadow: 2px 1px 100px 2px rgba(85, 255, 204, 0.077);
+  }
+}
