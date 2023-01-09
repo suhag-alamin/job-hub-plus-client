@@ -1,10 +1,21 @@
 import { Box, Container, Grid, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import candidate from "../../../assets/images/candidate.svg";
 import employer from "../../../assets/images/employer.svg";
 import styles from "../../../styles/Register.module.scss";
+import CandidateRegistration from "./CandidateRegistration";
+import EmployerRegistration from "./EmployerRegistration";
 
 const Register = () => {
+  const { type } = useParams();
+
+  if (type === "candidate") {
+    return <CandidateRegistration />;
+  }
+
+  if (type === "employer") {
+    return <EmployerRegistration />;
+  }
   return (
     <div>
       <Container sx={{ py: 6 }}>
@@ -28,7 +39,7 @@ const Register = () => {
           >
             <Grid item xs={2} sm={4} md={6}>
               <Box className={styles.imgBox}>
-                <Link to="/">
+                <Link to="/register/candidate">
                   <img src={candidate} alt="candidate" />
                   <Typography
                     sx={{ fontSize: { xs: 18, md: 20 } }}
@@ -42,7 +53,7 @@ const Register = () => {
             </Grid>
             <Grid item xs={2} sm={4} md={6}>
               <Box className={styles.imgBox}>
-                <Link to="/">
+                <Link to="/register/employer">
                   <img src={employer} alt="employer" />
                   <Typography
                     sx={{ fontSize: { xs: 18, md: 20 } }}

@@ -23,7 +23,7 @@ const Navbar = (props) => {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
-  const { email } = useSelector((state) => state.auth);
+  const { email, role } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const handleLogOut = () => {
@@ -76,25 +76,30 @@ const Navbar = (props) => {
             </Button>
           </NavLink>
         ) : (
-          <Box sx={{}}>
-            <NavLink
-              className={(navInfo) =>
-                navInfo.isActive ? navStyles.navSelected : navStyles.navLink
-              }
-              to="/dashboard"
-            >
-              Dashboard
-            </NavLink>
-            <Divider />
-            {/* {user?.email && <p className=navStyles.navLink>{user?.displayName}</p>} */}
+          <Box>
+            {email && role && (
+              <NavLink
+                className={(navInfo) =>
+                  navInfo.isActive ? navStyles.navSelected : navStyles.navLink
+                }
+                to="/dashboard"
+              >
+                Dashboard
+              </NavLink>
+            )}
 
-            {/* {user?.photoURL && (
-              <img
-                style={{ width: 50, borderRadius: "50%" }}
-                src={user.photoURL}
-                alt=""
-              />
-            )} */}
+            {email && !role && (
+              <NavLink
+                className={(navInfo) =>
+                  navInfo.isActive ? navStyles.navSelected : navStyles.navLink
+                }
+                to="/register"
+              >
+                Get Started
+              </NavLink>
+            )}
+            <Divider />
+
             <Divider />
             <Button
               onClick={handleLogOut}
@@ -179,30 +184,31 @@ const Navbar = (props) => {
                     </NavLink>
                   ) : (
                     <Box sx={{ display: "flex", alignItems: "center" }}>
-                      <NavLink
-                        className={(navInfo) =>
-                          navInfo.isActive
-                            ? navStyles.navSelected
-                            : navStyles.navLink
-                        }
-                        to="/dashboard"
-                      >
-                        Dashboard
-                      </NavLink>
-                      {/* {user?.email && (
-                        <span className=navStyles.navLink>{user?.displayName}</span>
-                      )} */}
-                      {/* {user?.photoURL && (
-                        <img
-                          style={{
-                            width: 50,
-                            borderRadius: "50%",
-                            marginRight: 10,
-                          }}
-                          src={user.photoURL}
-                          alt=""
-                        />
-                      )} */}
+                      {email && role && (
+                        <NavLink
+                          className={(navInfo) =>
+                            navInfo.isActive
+                              ? navStyles.navSelected
+                              : navStyles.navLink
+                          }
+                          to="/dashboard"
+                        >
+                          Dashboard
+                        </NavLink>
+                      )}
+                      {email && !role && (
+                        <NavLink
+                          className={(navInfo) =>
+                            navInfo.isActive
+                              ? navStyles.navSelected
+                              : navStyles.navLink
+                          }
+                          to="/register"
+                        >
+                          Get Started
+                        </NavLink>
+                      )}
+
                       <Button
                         onClick={handleLogOut}
                         sx={{
