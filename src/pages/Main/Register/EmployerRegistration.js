@@ -7,6 +7,7 @@ import {
   FormControlLabel,
   FormLabel,
   InputLabel,
+  LinearProgress,
   MenuItem,
   Radio,
   RadioGroup,
@@ -17,14 +18,25 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import { HiOutlineArrowLeft } from "react-icons/hi";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CountrySelect from "../../../components/reuseable/CountrySelect";
+import { useRegisterMutation } from "../../../features/auth/authApi";
 
 const EmployerRegistration = () => {
   const [country, setCountry] = useState([]);
 
-  const { handleSubmit, register, control } = useForm();
+  const [postUser, { isError, isLoading, isSuccess, error }] =
+    useRegisterMutation();
+  const { email } = useSelector((state) => state.auth);
+
+  const { handleSubmit, register, control } = useForm({
+    defaultValues: {
+      email,
+    },
+  });
   const term = useWatch({ control, name: "term" });
   const navigate = useNavigate();
 
@@ -55,161 +67,178 @@ const EmployerRegistration = () => {
     data.country = country?.label;
     data.countryCode = country?.code;
     console.log(data);
+    postUser(data);
   };
+
+  useEffect(() => {
+    if (!isLoading && !isError && isSuccess) {
+      toast.success("Registration successful", { id: "user-register" });
+      navigate("/dashboard");
+    } else if (!isLoading && !isSuccess && isError) {
+      toast.error(error.message, { id: "user-register" });
+    }
+  }, [isLoading, isError, isSuccess, error]);
 
   const handleBack = () => {
     navigate("/register");
   };
   return (
-    <Container sx={{ py: 6 }}>
-      <Box
-        sx={{
-          py: 3,
-          px: 4,
-          boxShadow: 1,
-          borderRadius: 2,
-        }}
-      >
-        <Box sx={{ mb: 6 }}>
-          <Button onClick={handleBack} startIcon={<HiOutlineArrowLeft />}>
-            Back
-          </Button>
-          <Typography
-            sx={{ fontSize: { xs: 24, md: 30 }, textAlign: "center", my: 2 }}
-            color="secondary"
-            variant="h3"
-          >
-            Employee
-          </Typography>
-        </Box>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Stack sx={{ my: 2 }} direction="row" gap={4}>
-            <TextField
-              fullWidth
-              type="text"
-              variant="filled"
-              label="First Name"
-              {...register("firstName")}
-            />
-            <TextField
-              fullWidth
-              type="text"
-              variant="filled"
-              label="Last Name"
-              {...register("lastName")}
-            />
-          </Stack>
-          <Stack sx={{ my: 2 }} direction="row" gap={4}>
-            <TextField
-              fullWidth
-              type="email"
-              variant="filled"
-              label="Email"
-              {...register("email")}
-            />
-            <FormControl fullWidth>
-              <FormLabel>Gender</FormLabel>
-              <RadioGroup row>
-                <FormControlLabel
-                  value="male"
-                  control={<Radio />}
-                  label="Male"
-                  {...register("gender")}
-                />
-                <FormControlLabel
-                  value="female"
-                  control={<Radio />}
-                  label="Female"
-                  {...register("gender")}
-                />
-
-                <FormControlLabel
-                  value="other"
-                  control={<Radio />}
-                  label="Other"
-                  {...register("gender")}
-                />
-              </RadioGroup>
-            </FormControl>
-          </Stack>
-          <Stack sx={{ my: 2 }} direction="row" gap={4}>
-            <TextField
-              fullWidth
-              type="url"
-              variant="filled"
-              label="LinkedIn Link"
-              {...register("linkedinLink")}
-            />
-            <Box sx={{ width: 1 }}>
-              <CountrySelect setCountry={setCountry} />
-            </Box>
-          </Stack>
-          <Stack sx={{ my: 2 }} direction="row" gap={4}>
-            <TextField
-              fullWidth
-              type="text"
-              variant="filled"
-              label="Company's  Name"
-              {...register("companyName")}
-            />
-            <FormControl fullWidth>
-              <InputLabel>Employee Range</InputLabel>
-              <Select
-                variant="filled"
-                label="Employee Range"
-                {...register("employeeRange")}
-              >
-                {employeeRange
-                  .sort((a, b) => a.localeCompare(b))
-                  .map((category) => (
-                    <MenuItem value={category}>{category}</MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
-          </Stack>
-          <Stack sx={{ my: 2 }} direction="row" gap={4}>
-            <FormControl fullWidth>
-              <InputLabel>Company's Category</InputLabel>
-              <Select
-                variant="filled"
-                label="Company's Category"
-                {...register("companyCategory")}
-              >
-                {businessCategory
-                  .sort((a, b) => a.localeCompare(b))
-                  .map((category) => (
-                    <MenuItem value={category}>{category}</MenuItem>
-                  ))}
-              </Select>
-            </FormControl>
-            <TextField
-              fullWidth
-              type="text"
-              variant="filled"
-              label=" Your role in company"
-              {...register("roleInCompany")}
-            />
-          </Stack>
-          <Box>
-            <FormControlLabel
-              control={<Checkbox />}
-              label="I agree to terms and conditions"
-              {...register("term")}
-            />
-          </Box>
-          <Box sx={{ my: 2 }}>
-            <Button
-              sx={{ textTransform: "inherit" }}
-              type="submit"
-              variant="contained"
-              disabled={!term}
-            >
-              Register
+    <>
+      {isLoading && <LinearProgress />}
+      <Container sx={{ py: 6 }}>
+        <Box
+          sx={{
+            py: 3,
+            px: 4,
+            boxShadow: 1,
+            borderRadius: 2,
+          }}
+        >
+          <Box sx={{ mb: 6 }}>
+            <Button onClick={handleBack} startIcon={<HiOutlineArrowLeft />}>
+              Back
             </Button>
+            <Typography
+              sx={{ fontSize: { xs: 24, md: 30 }, textAlign: "center", my: 2 }}
+              color="secondary"
+              variant="h3"
+            >
+              Employee
+            </Typography>
           </Box>
-        </form>
-      </Box>
-    </Container>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Stack sx={{ my: 2 }} direction="row" gap={4}>
+              <TextField
+                fullWidth
+                type="text"
+                variant="filled"
+                label="First Name"
+                {...register("firstName")}
+              />
+              <TextField
+                fullWidth
+                type="text"
+                variant="filled"
+                label="Last Name"
+                {...register("lastName")}
+              />
+            </Stack>
+            <Stack sx={{ my: 2 }} direction="row" gap={4}>
+              <TextField
+                fullWidth
+                type="email"
+                variant="filled"
+                label="Email"
+                {...register("email")}
+              />
+              <FormControl fullWidth>
+                <FormLabel>Gender</FormLabel>
+                <RadioGroup row>
+                  <FormControlLabel
+                    value="male"
+                    control={<Radio />}
+                    label="Male"
+                    {...register("gender")}
+                  />
+                  <FormControlLabel
+                    value="female"
+                    control={<Radio />}
+                    label="Female"
+                    {...register("gender")}
+                  />
+
+                  <FormControlLabel
+                    value="other"
+                    control={<Radio />}
+                    label="Other"
+                    {...register("gender")}
+                  />
+                </RadioGroup>
+              </FormControl>
+            </Stack>
+            <Stack sx={{ my: 2 }} direction="row" gap={4}>
+              <TextField
+                fullWidth
+                type="url"
+                variant="filled"
+                label="LinkedIn Link"
+                {...register("linkedinLink")}
+              />
+              <Box sx={{ width: 1 }}>
+                <CountrySelect setCountry={setCountry} />
+              </Box>
+            </Stack>
+            <Stack sx={{ my: 2 }} direction="row" gap={4}>
+              <TextField
+                fullWidth
+                type="text"
+                variant="filled"
+                label="Company's  Name"
+                {...register("companyName")}
+              />
+              <FormControl fullWidth>
+                <InputLabel>Employee Range</InputLabel>
+                <Select
+                  variant="filled"
+                  label="Employee Range"
+                  {...register("employeeRange")}
+                >
+                  {employeeRange
+                    ?.sort((a, b) => a.localeCompare(b))
+                    ?.map((category) => (
+                      <MenuItem key={category} value={category}>
+                        {category}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+            </Stack>
+            <Stack sx={{ my: 2 }} direction="row" gap={4}>
+              <FormControl fullWidth>
+                <InputLabel>Company's Category</InputLabel>
+                <Select
+                  variant="filled"
+                  label="Company's Category"
+                  {...register("companyCategory")}
+                >
+                  {businessCategory
+                    .sort((a, b) => a.localeCompare(b))
+                    .map((category) => (
+                      <MenuItem key={category} value={category}>
+                        {category}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
+              <TextField
+                fullWidth
+                type="text"
+                variant="filled"
+                label=" Your role in company"
+                {...register("roleInCompany")}
+              />
+            </Stack>
+            <Box>
+              <FormControlLabel
+                control={<Checkbox />}
+                label="I agree to terms and conditions"
+                {...register("term")}
+              />
+            </Box>
+            <Box sx={{ my: 2 }}>
+              <Button
+                sx={{ textTransform: "inherit" }}
+                type="submit"
+                variant="contained"
+                disabled={!term}
+              >
+                Register
+              </Button>
+            </Box>
+          </form>
+        </Box>
+      </Container>
+    </>
   );
 };
 
