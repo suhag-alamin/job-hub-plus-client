@@ -10,10 +10,15 @@ import {
 import { useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { FcGoogle } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import login from "../../assets/images/login.svg";
-import { createUser, toggleIsSuccess } from "../../features/auth/authSlice";
+import {
+  createUser,
+  googleLogin,
+  toggleIsSuccess,
+} from "../../features/auth/authSlice";
 
 const Signup = () => {
   const {
@@ -24,16 +29,19 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
 
-  const dispatch = useDispatch();
+  // redux
   const { isLoading, isError, error, isSuccess } = useSelector(
     (state) => state.auth
   );
+  const dispatch = useDispatch();
 
+  // watching password and password2
   const password = useWatch({ control, name: "password" });
   const password2 = useWatch({ control, name: "password2" });
 
   const [disabled, setDisabled] = useState(true);
 
+  // handle error and success
   useEffect(() => {
     if (
       password !== undefined &&
@@ -50,22 +58,33 @@ const Signup = () => {
     }
   }, [password, password2]);
 
-  useEffect(() => {
-    if (isError) {
-      toast.error(error, { id: "signup" });
-    } else if (isSuccess) {
-      toast.success("Signup successful! Please login.", { id: "signup" });
-      dispatch(toggleIsSuccess());
-      reset();
-    }
-  }, [isSuccess, isError, error, reset, dispatch]);
+  // handle error and success
 
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!isError && isSuccess && !isLoading) {
+      reset();
+      toast.success("Signup successful!", { id: "signup" });
+      navigate("/");
+      dispatch(toggleIsSuccess());
+    } else if (isError && !isSuccess) {
+      toast.error(error, { id: "signup" });
+    }
+  }, [isError, error, isSuccess]);
+
+  // handle submit
   const onSubmit = (data) => {
     if (data.password !== data.password2) {
       toast.error("Password doesn't match", { id: "password" });
     }
 
     dispatch(createUser({ email: data.email, password: data.password }));
+  };
+
+  // google login
+  // google login
+  const handleGoogleLogin = () => {
+    dispatch(googleLogin());
   };
 
   return (
@@ -78,12 +97,12 @@ const Signup = () => {
           columns={{ xs: 2, sm: 8, md: 12 }}
           sx={{ alignItems: "center" }}
         >
-          <Grid xs={2} sm={4} md={6}>
+          <Grid item xs={2} sm={4} md={6}>
             <Box>
               <img src={login} alt="login" />
             </Box>
           </Grid>
-          <Grid xs={2} sm={4} md={6}>
+          <Grid item xs={2} sm={4} md={6}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Box
                 sx={{
@@ -157,7 +176,13 @@ const Signup = () => {
                 <Typography variant="body1">
                   Already have an account? <Link to="/login">Login</Link>
                 </Typography>
-                <Button variant="outlined">Login with Google</Button>
+                <Button
+                  onClick={handleGoogleLogin}
+                  startIcon={<FcGoogle />}
+                  variant="outlined"
+                >
+                  Continue with Google
+                </Button>
               </Box>
             </form>
           </Grid>

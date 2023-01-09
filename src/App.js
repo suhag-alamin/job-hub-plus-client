@@ -1,7 +1,11 @@
 import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
-import React from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import React, { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
+import { useDispatch } from "react-redux";
 import { RouterProvider } from "react-router-dom";
+import { setUser } from "./features/auth/authSlice";
+import auth from "./firebase/firebase.config";
 import routes from "./routes/routes";
 
 const theme = createTheme({
@@ -31,6 +35,17 @@ const theme = createTheme({
 });
 
 function App() {
+  // set user or persist user
+  const dispatch = useDispatch();
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log(user);
+        dispatch(setUser(user?.email));
+      }
+    });
+  }, [dispatch]);
+
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
