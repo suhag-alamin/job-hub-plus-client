@@ -8,18 +8,39 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import login from "../../assets/images/login.svg";
+import { loginUser } from "../../features/auth/authSlice";
 
 const Login = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const onSubmit = (data) => console.log(data);
-  console.log(errors);
+  const { register, handleSubmit, reset } = useForm();
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isError, error, isSuccess } = useSelector((state) => state.auth);
+
+  const onSubmit = ({ email, password }) => {
+    if (!email || !password) {
+      toast.error("Please fill all the fields", { id: "login" });
+    } else {
+      dispatch(loginUser({ email, password }));
+    }
+  };
+
+  useEffect(() => {
+    if (!isError && isSuccess) {
+      reset();
+      toast.success("Login successful!", { id: "login" });
+      navigate("/");
+    } else if (isError && !isSuccess) {
+      toast.error(error, { id: "login" });
+    }
+  }, [isError, error, isSuccess]);
+
   return (
     <Container sx={{ py: 6 }}>
       <Grid
@@ -59,21 +80,13 @@ const Login = () => {
                 label="Email"
                 type="email"
                 placeholder="email"
-                {...register("email", {
-                  required: true,
-                  pattern: /^\S+@\S+$/i,
-                })}
+                {...register("email")}
               />
               <TextField
                 label="Password"
                 type="password"
                 placeholder="password"
-                {...register("password", {
-                  required: true,
-                  minLength: 6,
-                  pattern:
-                    /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/,
-                })}
+                {...register("password")}
               />
               <FormControlLabel control={<Checkbox />} label="Remember me" />
 

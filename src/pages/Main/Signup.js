@@ -52,7 +52,7 @@ const Signup = () => {
 
   useEffect(() => {
     if (isError) {
-      toast.error(error.message, { id: "signup" });
+      toast.error(error, { id: "signup" });
     } else if (isSuccess) {
       toast.success("Signup successful! Please login.", { id: "signup" });
       dispatch(toggleIsSuccess());

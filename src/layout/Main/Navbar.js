@@ -10,6 +10,7 @@ import PropTypes from "prop-types";
 import * as React from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import { RiLoginCircleFill, RiLogoutCircleFill } from "react-icons/ri";
+import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import navStyles from "../../styles/Navbar.module.scss";
@@ -18,6 +19,8 @@ import navStyles from "../../styles/Navbar.module.scss";
 const Navbar = (props) => {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const { email } = useSelector((state) => state.auth);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -48,54 +51,54 @@ const Navbar = (props) => {
 
         <Divider />
 
-        {/* {!user?.email ? ( */}
-        <NavLink to="/login">
-          <Button
-            sx={{
-              borderRadius: 8,
-              alignItems: "center",
-              textTransform: "inherit",
-            }}
-            variant="contained"
-            endIcon={<RiLoginCircleFill />}
-          >
-            Login
-          </Button>
-        </NavLink>
-        {/* ) : ( */}
-        <Box sx={{}}>
-          <NavLink
-            className={(navInfo) =>
-              navInfo.isActive ? navStyles.navSelected : navStyles.navLink
-            }
-            to="/dashboard"
-          >
-            Dashboard
+        {!email ? (
+          <NavLink to="/login">
+            <Button
+              sx={{
+                borderRadius: 8,
+                alignItems: "center",
+                textTransform: "inherit",
+              }}
+              variant="contained"
+              endIcon={<RiLoginCircleFill />}
+            >
+              Login
+            </Button>
           </NavLink>
-          <Divider />
-          {/* {user?.email && <p className=navStyles.navLink>{user?.displayName}</p>} */}
+        ) : (
+          <Box sx={{}}>
+            <NavLink
+              className={(navInfo) =>
+                navInfo.isActive ? navStyles.navSelected : navStyles.navLink
+              }
+              to="/dashboard"
+            >
+              Dashboard
+            </NavLink>
+            <Divider />
+            {/* {user?.email && <p className=navStyles.navLink>{user?.displayName}</p>} */}
 
-          {/* {user?.photoURL && (
+            {/* {user?.photoURL && (
               <img
                 style={{ width: 50, borderRadius: "50%" }}
                 src={user.photoURL}
                 alt=""
               />
             )} */}
-          <Divider />
-          <Button
-            sx={{
-              borderRadius: 8,
-              alignItems: "center",
-              textTransform: "inherit",
-            }}
-            variant="contained"
-            startIcon={<RiLogoutCircleFill />}
-          >
-            Log Out
-          </Button>
-        </Box>
-        {/* )} */}
+            <Divider />
+            <Button
+              sx={{
+                borderRadius: 8,
+                alignItems: "center",
+                textTransform: "inherit",
+              }}
+              variant="contained"
+              startIcon={<RiLogoutCircleFill />}
+            >
+              Log Out
+            </Button>
+          </Box>
+        )}
 
         <Divider />
       </nav>
@@ -149,37 +152,36 @@ const Navbar = (props) => {
                   >
                     Jobs
                   </NavLink>
-                  {/* {!user?.email ? ( */}
-
-                  <NavLink to="/login">
-                    <Button
-                      sx={{
-                        borderRadius: 8,
-                        alignItems: "center",
-                        textTransform: "inherit",
-                      }}
-                      variant="contained"
-                      endIcon={<RiLoginCircleFill />}
-                    >
-                      Login
-                    </Button>
-                  </NavLink>
-                  {/* ) : ( */}
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <NavLink
-                      className={(navInfo) =>
-                        navInfo.isActive
-                          ? navStyles.navSelected
-                          : navStyles.navLink
-                      }
-                      to="/dashboard"
-                    >
-                      Dashboard
+                  {!email ? (
+                    <NavLink to="/login">
+                      <Button
+                        sx={{
+                          borderRadius: 8,
+                          alignItems: "center",
+                          textTransform: "inherit",
+                        }}
+                        variant="contained"
+                        endIcon={<RiLoginCircleFill />}
+                      >
+                        Login
+                      </Button>
                     </NavLink>
-                    {/* {user?.email && (
+                  ) : (
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                      <NavLink
+                        className={(navInfo) =>
+                          navInfo.isActive
+                            ? navStyles.navSelected
+                            : navStyles.navLink
+                        }
+                        to="/dashboard"
+                      >
+                        Dashboard
+                      </NavLink>
+                      {/* {user?.email && (
                         <span className=navStyles.navLink>{user?.displayName}</span>
                       )} */}
-                    {/* {user?.photoURL && (
+                      {/* {user?.photoURL && (
                         <img
                           style={{
                             width: 50,
@@ -190,19 +192,19 @@ const Navbar = (props) => {
                           alt=""
                         />
                       )} */}
-                    <Button
-                      sx={{
-                        borderRadius: 8,
-                        alignItems: "center",
-                        textTransform: "inherit",
-                      }}
-                      variant="contained"
-                      startIcon={<RiLogoutCircleFill />}
-                    >
-                      Log Out
-                    </Button>
-                  </Box>
-                  {/* )} */}
+                      <Button
+                        sx={{
+                          borderRadius: 8,
+                          alignItems: "center",
+                          textTransform: "inherit",
+                        }}
+                        variant="contained"
+                        startIcon={<RiLogoutCircleFill />}
+                      >
+                        Log Out
+                      </Button>
+                    </Box>
+                  )}
                 </nav>
               </Box>
             </Box>
