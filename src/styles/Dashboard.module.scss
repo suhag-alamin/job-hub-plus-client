@@ -1,0 +1,10 @@
+@import "./variable.module.scss";
+
+.menuItem {
+  color: $primary-color !important;
+}
+
+.dashboardMenuIcon {
+  color: $primary-color;
+  font-size: 20px;
+}

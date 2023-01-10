@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Dashboard from "../layout/Dashboard/Dashboard";
 import Main from "../layout/Main/Main";
+import AddJob from "../pages/Dashboard/AddJob";
 import Home from "../pages/Main/Home/Home";
 import Login from "../pages/Main/Login";
 import NotFound from "../pages/Main/NotFound";
@@ -43,8 +44,18 @@ const routes = createBrowserRouter([
   // dashboard
   {
     path: "/dashboard",
-    element: <Dashboard />,
-    children: [],
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
+    children: [
+      { path: "/dashboard", element: <Dashboard /> },
+      {
+        path: "add-job",
+        element: <AddJob />,
+      },
+    ],
   },
   // 404 page
   {
