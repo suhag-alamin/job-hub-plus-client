@@ -13,9 +13,7 @@
 }
 
 .heroImage {
-  // object-cover h-full w-full opacity-0
   object-fit: cover;
   height: 100%;
   width: 100%;
-  // opacity: 0;
 }

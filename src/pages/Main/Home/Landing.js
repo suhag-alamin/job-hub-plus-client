@@ -77,11 +77,11 @@ const Landing = () => {
     };
   }, []);
   return (
-    <Box ref={el} sx={{ py: 14, px: 8 }}>
+    <Box ref={el} sx={{ py: 14, px: { xs: 4, md: 8 } }}>
       <Grid
         container
         spacing={{ xs: 2, md: 3 }}
-        columns={{ xs: 2, sm: 8, md: 12 }}
+        columns={{ xs: 2, sm: 4, md: 12 }}
       >
         <Grid item xs={2} sm={4} md={6}>
           <Box sx={{ maxWidth: 500 }}>
@@ -140,7 +140,7 @@ const Landing = () => {
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
-              gap: 7,
+              gap: { xs: 2, md: 7 },
             }}
           >
             <Box
@@ -150,9 +150,9 @@ const Landing = () => {
                 py: 2,
                 px: 2,
                 bgcolor: "#fff",
-                position: "relative",
-                left: "40%",
-                width: 280,
+                position: { xs: "inherit", md: "relative" },
+                left: { xs: "inherit", md: "40%" },
+                width: { xs: 1, md: 280 },
               }}
               className="statCard"
             >
@@ -175,9 +175,9 @@ const Landing = () => {
                 py: 2,
                 px: 2,
                 bgcolor: "#fff",
-                position: "relative",
-                left: "30%",
-                width: 280,
+                position: { xs: "inherit", md: "relative" },
+                left: { xs: "inherit", md: "30%" },
+                width: { xs: 1, md: 280 },
               }}
               className="statCard"
             >
@@ -202,9 +202,9 @@ const Landing = () => {
                 py: 2,
                 px: 2,
                 bgcolor: "#fff",
-                position: "relative",
-                left: "20%",
-                width: 280,
+                position: { xs: "inherit", md: "relative" },
+                left: { xs: "inherit", md: "20%" },
+                width: { xs: 1, md: 280 },
               }}
               className="statCard"
             >
@@ -234,6 +234,7 @@ const Landing = () => {
           left: "50%",
           transform: "translateX(-50%)",
           zIndex: -1,
+          display: { xs: "none", md: "block" },
         }}
       >
         <img id="hero1" src={hero1} alt="" className={homeStyles.heroImage} />

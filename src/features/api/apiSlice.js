@@ -5,8 +5,7 @@ let URL;
 if (process.env.NODE_ENV === "development") {
   URL = "http://localhost:5000";
 } else {
-  // URL = "https://job-hub-plus.onrender.com";
-  URL = "https://job-hub-plus-api.vercel.app";
+  URL = "https://job-hub-plus.onrender.com";
 }
 
 const apiSlice = createApi({
