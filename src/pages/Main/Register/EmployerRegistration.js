@@ -30,7 +30,9 @@ const EmployerRegistration = () => {
 
   const [postUser, { isError, isLoading, isSuccess, error }] =
     useRegisterMutation();
-  const { email } = useSelector((state) => state.auth);
+  const {
+    user: { email },
+  } = useSelector((state) => state.auth);
 
   const { handleSubmit, register, control } = useForm({
     defaultValues: {
@@ -66,6 +68,7 @@ const EmployerRegistration = () => {
   const onSubmit = (data) => {
     data.country = country?.label;
     data.countryCode = country?.code;
+    data.role = "employer";
     console.log(data);
     postUser(data);
   };
@@ -125,6 +128,7 @@ const EmployerRegistration = () => {
             </Stack>
             <Stack sx={{ my: 2 }} direction="row" gap={4}>
               <TextField
+                disabled
                 fullWidth
                 type="email"
                 variant="filled"

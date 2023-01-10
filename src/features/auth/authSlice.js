@@ -8,13 +8,23 @@ import {
 import auth from "../../firebase/firebase.config";
 
 const initialState = {
-  email: "",
-  role: "",
+  user: {
+    email: "",
+    role: "",
+  },
   isLoading: true,
   isError: false,
   isSuccess: false,
   error: "",
 };
+
+let URL;
+
+if (process.env.NODE_ENV === "development") {
+  URL = "http://localhost:5000";
+} else {
+  URL = "https://job-hub-plus.onrender.com";
+}
 
 // signup
 export const createUser = createAsyncThunk(
@@ -41,22 +51,33 @@ export const googleLogin = createAsyncThunk("auth/googleLogin", async () => {
   return data.user.email;
 });
 
+// get user
+export const getUser = createAsyncThunk("auth/getUser", async (email) => {
+  const res = await fetch(`${URL}/user/${email}`);
+  const data = await res.json();
+  if (data.status) {
+    return data;
+  } else {
+    return email;
+  }
+});
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
     toggleIsSuccess: (state) => {
-      state.isSuccess = !state.isSuccess;
+      state.isSuccess = false;
     },
     toggleIsLoading: (state) => {
       state.isLoading = false;
     },
     logout: (state) => {
-      state.email = "";
+      state.user.email = "";
       state.role = "";
     },
     setUser: (state, { payload }) => {
-      state.email = payload;
+      state.user.email = payload;
       state.isLoading = false;
     },
   },
@@ -73,14 +94,14 @@ const authSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.error = "";
-        state.email = action.payload;
+        state.user.email = action.payload;
       })
       .addCase(createUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
         state.error = action.error.message;
-        state.email = "";
+        state.user.email = "";
       })
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
@@ -93,24 +114,24 @@ const authSlice = createSlice({
         state.isError = false;
         state.isSuccess = true;
         state.error = "";
-        state.email = action.payload;
+        state.user.email = action.payload;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
         state.error = action.error.message;
-        state.email = "";
+        state.user.email = "";
       })
       .addCase(googleLogin.pending, (state) => {
-        state.email = "";
+        state.user.email = "";
         state.isLoading = true;
         state.isError = false;
         state.isSuccess = false;
         state.error = "";
       })
       .addCase(googleLogin.fulfilled, (state, { payload }) => {
-        state.email = payload;
+        state.user.email = payload;
         state.role = "";
         state.isLoading = false;
         state.isError = false;
@@ -118,7 +139,33 @@ const authSlice = createSlice({
         state.error = "";
       })
       .addCase(googleLogin.rejected, (state, action) => {
-        state.email = "";
+        state.user.email = "";
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.error = action.error.message;
+      })
+      .addCase(getUser.pending, (state) => {
+        state.user.email = "";
+        state.isLoading = true;
+        state.isError = false;
+        state.isSuccess = false;
+        state.error = "";
+      })
+      .addCase(getUser.fulfilled, (state, { payload }) => {
+        if (payload.status) {
+          state.user = payload.data;
+        } else {
+          state.user.email = payload;
+        }
+        state.role = "";
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.error = "";
+      })
+      .addCase(getUser.rejected, (state, action) => {
+        state.user = {};
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

@@ -81,6 +81,7 @@ const Signup = () => {
   // google login
   const handleGoogleLogin = () => {
     dispatch(googleLogin());
+    dispatch(toggleIsSuccess());
   };
 
   return (

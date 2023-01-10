@@ -28,6 +28,7 @@ const CandidateRegistration = () => {
   const onSubmit = (data) => {
     data.country = country?.label;
     data.countryCode = country?.code;
+    data.role = "candidate";
     console.log(data);
   };
 

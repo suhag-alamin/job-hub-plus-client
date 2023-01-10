@@ -14,7 +14,7 @@ import { RiLoginCircleFill, RiLogoutCircleFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
-import { logout } from "../../features/auth/authSlice";
+import { logout, toggleIsSuccess } from "../../features/auth/authSlice";
 import auth from "../../firebase/firebase.config";
 import navStyles from "../../styles/Navbar.module.scss";
 
@@ -23,12 +23,15 @@ const Navbar = (props) => {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
-  const { email, role } = useSelector((state) => state.auth);
+  const {
+    user: { email, role },
+  } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const handleLogOut = () => {
     signOut(auth).then(() => {
       dispatch(logout());
+      dispatch(toggleIsSuccess());
     });
   };
 

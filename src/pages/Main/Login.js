@@ -55,6 +55,7 @@ const Login = () => {
   // google login
   const handleGoogleLogin = () => {
     dispatch(googleLogin());
+    dispatch(toggleIsSuccess());
   };
 
   return (
