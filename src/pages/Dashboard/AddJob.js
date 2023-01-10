@@ -1,21 +1,24 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Container,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
+import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 import { TiDelete } from "react-icons/ti";
-import { AiOutlineSend } from "react-icons/ai";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { usePostJobMutation } from "../../features/job/jobApi";
 
 const AddJob = () => {
-  const {
-    user: { companyName },
-  } = useSelector((state) => state.auth);
+  const { companyName } = useSelector((state) => state.auth.user);
+  const [postJob, { isLoading, isError, error, isSuccess }] =
+    usePostJobMutation();
 
   const { handleSubmit, register, control } = useForm({
     defaultValues: {
@@ -43,11 +46,21 @@ const AddJob = () => {
   } = useFieldArray({ control, name: "requirements" });
 
   const onSubmit = (data) => {
-    console.log(data);
+    postJob(data);
   };
+
+  useEffect(() => {
+    if (!isLoading && !isError && isSuccess) {
+      toast.success("Job posted successfully");
+      navigate("/dashboard");
+    }
+    if (!isLoading && isError) {
+      toast.error(error.status);
+    }
+  }, [isLoading, isError, error, isSuccess]);
+
   return (
     <>
-      {/* {isLoading && <LinearProgress />} */}
       <Container>
         <Box
           sx={{
@@ -260,9 +273,13 @@ const AddJob = () => {
                 sx={{ textTransform: "inherit" }}
                 type="submit"
                 variant="contained"
-                endIcon={<AiOutlineSend />}
+                disabled={isLoading}
               >
-                Add Position
+                {isLoading ? (
+                  <CircularProgress size="20px" color="info" />
+                ) : (
+                  " Add Position"
+                )}
               </Button>
             </Box>
           </form>

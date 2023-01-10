@@ -23,6 +23,9 @@ const theme = createTheme({
     error: {
       main: "#FE5F55",
     },
+    info: {
+      main: "#ffff",
+    },
     text: {
       primary: "#1C1018",
       secondary: "#0B4F6C",
