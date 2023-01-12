@@ -3,6 +3,10 @@ import {
   Button,
   CircularProgress,
   Container,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
   Stack,
   TextField,
   Typography,
@@ -46,6 +50,7 @@ const AddJob = () => {
   } = useFieldArray({ control, name: "requirements" });
 
   const onSubmit = (data) => {
+    data.createdDate = new Date().toISOString();
     postJob(data);
   };
 
@@ -90,6 +95,7 @@ const AddJob = () => {
               />
               <TextField
                 fullWidth
+                disabled
                 type="text"
                 variant="filled"
                 label="Company Name"
@@ -113,13 +119,19 @@ const AddJob = () => {
               />
             </Stack>
             <Stack sx={{ my: 2 }} direction="row" gap={4}>
-              <TextField
-                fullWidth
-                type="text"
-                variant="filled"
-                label="Employment Type"
-                {...register("employmentType")}
-              />
+              <FormControl fullWidth>
+                <InputLabel>Employment Type</InputLabel>
+                <Select
+                  variant="filled"
+                  label="Employment Type"
+                  {...register("employmentType")}
+                >
+                  <MenuItem value="full-time">Full-Time</MenuItem>
+                  <MenuItem value="part-time">Part-Time</MenuItem>
+                  <MenuItem value="contract">Contract</MenuItem>
+                  <MenuItem value="internship">Internship</MenuItem>
+                </Select>
+              </FormControl>
               <TextField
                 fullWidth
                 type="text"
