@@ -4,8 +4,12 @@ import {
   CircularProgress,
   Container,
   FormControl,
+  FormControlLabel,
+  FormLabel,
   InputLabel,
   MenuItem,
+  Radio,
+  RadioGroup,
   Select,
   Stack,
   TextField,
@@ -137,6 +141,7 @@ const AddJob = () => {
                 type="text"
                 variant="filled"
                 label="Salary Range"
+                helperText="e.g. $10000-20000 Per Month"
                 {...register("salaryRange")}
               />
             </Stack>
@@ -148,7 +153,25 @@ const AddJob = () => {
                 label="Location"
                 {...register("location")}
               />
+              <FormControl fullWidth>
+                <FormLabel>Work Type</FormLabel>
+                <RadioGroup row>
+                  <FormControlLabel
+                    value="onSite"
+                    control={<Radio />}
+                    label="On Site"
+                    {...register("workType")}
+                  />
+                  <FormControlLabel
+                    value="remote"
+                    control={<Radio />}
+                    label="Remote"
+                    {...register("workType")}
+                  />
+                </RadioGroup>
+              </FormControl>
             </Stack>
+
             <Stack sx={{ my: 2 }} direction="row" gap={4}>
               <TextField
                 multiline

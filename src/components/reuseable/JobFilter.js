@@ -17,7 +17,7 @@ const JobFilter = () => {
   const [value, setValue] = useState([500, 3000]);
   const [checked, setChecked] = useState(false);
 
-  const handleRangeChange = (newValue) => {
+  const handleRangeChange = (e, newValue) => {
     setValue(newValue);
   };
 
@@ -60,7 +60,7 @@ const JobFilter = () => {
           </Typography>
           <Slider
             defaultValue={value}
-            max={10000}
+            max={100000}
             min={500}
             value={value}
             onChange={handleRangeChange}
