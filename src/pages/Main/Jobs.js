@@ -1,7 +1,8 @@
 import { Container, Typography } from "@mui/material";
-import JobCard from "../../../components/reuseable/JobCard";
-import JobFilter from "../../../components/reuseable/JobFilter";
-import { useGetJobsQuery } from "../../../features/job/jobApi";
+import JobCard from "../../components/Job/JobCard";
+import JobFilter from "../../components/Job/JobFilter";
+
+import { useGetJobsQuery } from "../../features/job/jobApi";
 
 const Jobs = () => {
   const { data, isLoading, isError } = useGetJobsQuery();

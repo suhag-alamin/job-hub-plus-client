@@ -24,7 +24,7 @@ const JobFilter = () => {
   const handleRemoteChange = (event) => {
     setChecked(event.target.checked);
   };
-  console.log(value);
+
   return (
     <Box>
       <Stack
