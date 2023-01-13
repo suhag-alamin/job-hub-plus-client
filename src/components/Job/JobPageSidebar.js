@@ -1,4 +1,7 @@
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Button, Paper, Typography } from "@mui/material";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
+import { addToSaveJob } from "../../features/job/jobSlice";
 
 const JobPageSidebar = ({ job }) => {
   const {
@@ -13,8 +16,24 @@ const JobPageSidebar = ({ job }) => {
     companyWebsite,
   } = job;
 
+  const dispatch = useDispatch();
+  const { savedJobs } = useSelector((state) => state.job);
+
+  const alreadySaved = savedJobs?.find(
+    (savedJob) => savedJob?._id === job?._id
+  );
+
   return (
     <div>
+      <Button
+        sx={{ fontWeight: 700, textTransform: "inherit", width: 1 }}
+        color="primary"
+        variant="outlined"
+        startIcon={alreadySaved ? <AiFillHeart /> : <AiOutlineHeart />}
+        onClick={() => dispatch(addToSaveJob(job))}
+      >
+        Save
+      </Button>
       <Paper
         sx={{
           px: 3,

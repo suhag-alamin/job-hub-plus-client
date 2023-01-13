@@ -2,15 +2,24 @@ import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import PropTypes from "prop-types";
-import { AiOutlineHeart } from "react-icons/ai";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { IoIosFlash } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { addToSaveJob } from "../../features/job/jobSlice";
 import JobDetails from "./JobDetails";
 
 // navbar
 const JobDrawer = (props) => {
   const { window } = props;
   const { handleDrawerToggle, mobileOpen, job } = props;
+
+  const dispatch = useDispatch();
+  const { savedJobs } = useSelector((state) => state.job);
+
+  const alreadySaved = savedJobs?.find(
+    (savedJob) => savedJob?._id === job?._id
+  );
 
   const drawer = (
     <Box sx={{ py: 6, px: 8 }}>
@@ -35,7 +44,8 @@ const JobDrawer = (props) => {
               sx={{ fontWeight: 700, textTransform: "inherit" }}
               color="primary"
               variant="outlined"
-              startIcon={<AiOutlineHeart />}
+              startIcon={alreadySaved ? <AiFillHeart /> : <AiOutlineHeart />}
+              onClick={() => dispatch(addToSaveJob(job))}
             >
               Save
             </Button>

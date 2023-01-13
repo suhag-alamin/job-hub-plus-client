@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import apiSlice from "../features/api/apiSlice";
 import authSlice from "../features/auth/authSlice";
 import filterSlice from "../features/filter/filterSlice";
+import jobSlice from "../features/job/jobSlice";
 
 const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,
     auth: authSlice,
     filter: filterSlice,
+    job: jobSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),
