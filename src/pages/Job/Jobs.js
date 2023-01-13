@@ -1,4 +1,5 @@
 import { Box, Container, LinearProgress, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
 import JobCard from "../../components/Job/JobCard";
 import JobFilter from "../../components/Job/JobFilter";
 
@@ -6,6 +7,10 @@ import { useGetJobsQuery } from "../../features/job/jobApi";
 
 const Jobs = () => {
   const { data, isLoading, isError } = useGetJobsQuery();
+  const { employmentType, postedTime, salaryRange, remote } = useSelector(
+    (state) => state.filter
+  );
+
   let content;
   if (isLoading) {
     content = (
@@ -26,8 +31,33 @@ const Jobs = () => {
       </Typography>
     );
   } else if (data?.data?.length > 0 && !isLoading) {
-    content = data?.data?.map((job) => <JobCard key={job._id} job={job} />);
+    if (employmentType === "all" || postedTime === "any-time") {
+      content = data?.data?.map((job) => <JobCard key={job._id} job={job} />);
+    }
+    if (employmentType !== "all") {
+      content = data?.data
+        ?.filter((job) => job.employmentType === employmentType)
+        ?.map((job) => <JobCard key={job._id} job={job} />);
+    }
+    // if (postedTime !== "any-time") {
+    //   content = data?.data
+    //     ?.filter((job) => job.postedTime === postedTime)
+    //     ?.map((job) => <JobCard key={job._id} job={job} />);
+    // }
+    if (remote) {
+      content = data?.data
+        ?.filter((job) => job?.workType === "remote")
+        ?.map((job) => <JobCard key={job._id} job={job} />);
+    }
   }
+
+  // else if (data?.data?.length > 0 && employmentType === "all" && !isLoading) {
+  //   content = data?.data?.map((job) => <JobCard key={job._id} job={job} />);
+  // } else if (data?.data?.length > 0 && employmentType === "full-time") {
+  //   content = data?.data
+  //     ?.filter((job) => job.employmentType === "full-time")
+  //     ?.map((job) => <JobCard key={job._id} job={job} />);
+  // }
   return (
     <div>
       {/* filters  */}
