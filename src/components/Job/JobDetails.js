@@ -1,4 +1,7 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
+import { IoIosFlash } from "react-icons/io";
+import { FacebookShareButton, TwitterShareButton } from "react-share";
+import { BsFacebook, BsTwitter } from "react-icons/bs";
 
 const JobDetails = ({ job }) => {
   const {
@@ -68,6 +71,9 @@ const JobDetails = ({ job }) => {
         <Typography sx={{ fontSize: 14 }} variant="subtitle2">
           Work Level: ${workLevel}
         </Typography>
+        <Typography sx={{ fontSize: 14 }} variant="subtitle2">
+          Experience: ${experience}
+        </Typography>
       </Box>
       <Box sx={{ my: 4 }}>
         <Typography
@@ -133,6 +139,50 @@ const JobDetails = ({ job }) => {
               {skill}
             </Typography>
           ))}
+        </Stack>
+      </Box>
+      <Box
+        sx={{
+          my: 3,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Box>
+          <Button
+            sx={{ fontWeight: 700, textTransform: "inherit" }}
+            color="secondary"
+            variant="contained"
+            startIcon={<IoIosFlash />}
+          >
+            Apply
+          </Button>
+        </Box>
+        <Stack sx={{ alignItems: "center", py: 2 }} direction="row" gap={2}>
+          <Typography sx={{ fontSize: 16 }} variant="body1">
+            Share on Social Media:
+          </Typography>
+          <FacebookShareButton
+            url={`https://jobhubplus.web.app/job-details/${job?._id}`}
+            quote={`I found this job on JobHubPlus and I think it's a good fit for you. Check it out!`}
+            title={`${job?.position} | JobHubPlus`}
+            hashtag={`#${skills[0]} #${skills[1]} #${skills[2]} #suhag_al_amin`}
+          >
+            <Button sx={{ fontSize: 20 }} variant="outlined">
+              <BsFacebook />
+            </Button>
+          </FacebookShareButton>
+
+          <TwitterShareButton
+            url={`https://jobhubplus.web.app/job-details/${job?._id}`}
+            title={`${job?.position} | JobHubPlus`}
+            hashtag={`#${skills[0]} #${skills[1]} #${skills[2]} #suhag_al_amin`}
+          >
+            <Button sx={{ fontSize: 20 }} variant="outlined">
+              <BsTwitter />
+            </Button>
+          </TwitterShareButton>
         </Stack>
       </Box>
     </div>
