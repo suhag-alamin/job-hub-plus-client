@@ -1,4 +1,4 @@
-import { Container, Typography } from "@mui/material";
+import { Box, Container, LinearProgress, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import JobCard from "../../components/Job/JobCard";
 import JobFilter from "../../components/Job/JobFilter";
@@ -28,30 +28,15 @@ const Jobs = () => {
     now.getMinutes(),
     now.getSeconds()
   ).toISOString();
-  // function checkRecentDate(date) {
-
-  //   if (date > twentyFourHoursAgo.toISOString()) {
-  //     return true;
-  //   } else if (date > threeDaysAgo.toISOString()) {
-  //     return true;
-  //   } else if (date > twoWeeksAgo.toISOString()) {
-  //     return true;
-  //   } else if (date > oneMonthAgo.toISOString()) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
 
   let content;
-  // if (isLoading) {
-  //   content = (
-  //     <Box>
-  //       <LinearProgress />
-  //     </Box>
-  //   );
-  // } else
-  if (!isLoading && isError) {
+  if (isLoading) {
+    content = (
+      <Box>
+        <LinearProgress />
+      </Box>
+    );
+  } else if (!isLoading && isError) {
     content = (
       <Typography sx={{ textAlign: "center" }} variant="h5" color="error">
         Something went wrong
@@ -67,14 +52,14 @@ const Jobs = () => {
     if (employmentType === "all" || postedTime === "any-time") {
       content = data?.data?.map((job) => <JobCard key={job._id} job={job} />);
     }
-    if (employmentType !== "all") {
+    if (employmentType !== "all" || postedTime !== "any-time" || remote) {
       content = data?.data
-        ?.filter((job) => job.employmentType === employmentType)
-        ?.map((job) => <JobCard key={job._id} job={job} />);
-    }
-    if (postedTime !== "any-time") {
-      // filter jobs by postedTime - 1 day, 3 days, 2 weeks, 1 month
-      content = data?.data
+        ?.filter((job) => {
+          if (employmentType !== "all") {
+            return job.employmentType === employmentType;
+          }
+          return job;
+        })
         ?.filter((job) => {
           if (postedTime === "last-day") {
             return job.createdDate > twentyFourHoursAgo;
@@ -88,22 +73,16 @@ const Jobs = () => {
           }
           return job;
         })
-        ?.map((job) => <JobCard key={job._id} job={job} />);
-    }
-    if (remote) {
-      content = data?.data
-        ?.filter((job) => job?.workType === "remote")
+        ?.filter((job) => {
+          if (remote) {
+            return job?.workType === "remote";
+          }
+          return job;
+        })
         ?.map((job) => <JobCard key={job._id} job={job} />);
     }
   }
 
-  // else if (data?.data?.length > 0 && employmentType === "all" && !isLoading) {
-  //   content = data?.data?.map((job) => <JobCard key={job._id} job={job} />);
-  // } else if (data?.data?.length > 0 && employmentType === "full-time") {
-  //   content = data?.data
-  //     ?.filter((job) => job.employmentType === "full-time")
-  //     ?.map((job) => <JobCard key={job._id} job={job} />);
-  // }
   return (
     <div>
       {/* filters  */}
