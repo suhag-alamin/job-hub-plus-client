@@ -16,6 +16,8 @@ import { useState } from "react";
 const JobFilter = () => {
   const [value, setValue] = useState([500, 3000]);
   const [checked, setChecked] = useState(false);
+  const employmentTypes = ["Full-Time", "Part-Time", "Contract", "Internship"];
+  const postedTimes = ["Last Day", "Last 3 Days", "Last 2 Weeks", "Last Month"];
 
   const handleRangeChange = (e, newValue) => {
     setValue(newValue);
@@ -37,20 +39,22 @@ const JobFilter = () => {
         <FormControl fullWidth>
           <InputLabel>All Job Types</InputLabel>
           <Select label="Employment Type">
-            <MenuItem value="full-time">Full-Time</MenuItem>
-            <MenuItem value="part-time">Part-Time</MenuItem>
-            <MenuItem value="contract">Contract</MenuItem>
-            <MenuItem value="internship">Internship</MenuItem>
+            {employmentTypes.map((type, index) => (
+              <MenuItem key={index} value={type}>
+                {type}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
         {/* posted time  */}
         <FormControl fullWidth>
           <InputLabel>Posted Any Time</InputLabel>
           <Select label="Employment Type">
-            <MenuItem value="full-time">Last Day</MenuItem>
-            <MenuItem value="part-time">Last 3 Days</MenuItem>
-            <MenuItem value="contract">Last 2 Weeks</MenuItem>
-            <MenuItem value="internship">Last Month</MenuItem>
+            {postedTimes.map((time, index) => (
+              <MenuItem key={index} value={time}>
+                {time}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
         {/* salary range  */}
