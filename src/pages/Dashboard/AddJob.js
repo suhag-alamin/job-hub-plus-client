@@ -24,7 +24,9 @@ import { useNavigate } from "react-router-dom";
 import { usePostJobMutation } from "../../features/job/jobApi";
 
 const AddJob = () => {
-  const { companyName } = useSelector((state) => state.auth.user);
+  const { companyName, employeeRange, email, companyWebsite } = useSelector(
+    (state) => state.auth.user
+  );
   const [postJob, { isLoading, isError, error, isSuccess }] =
     usePostJobMutation();
 
@@ -54,8 +56,13 @@ const AddJob = () => {
   } = useFieldArray({ control, name: "requirements" });
 
   const onSubmit = (data) => {
+    data.companyWebsite = companyWebsite;
+    data.employeeRange = employeeRange;
+    data.employerEmail = email;
     data.createdDate = new Date().toISOString();
+
     postJob(data);
+    console.log(data);
   };
 
   useEffect(() => {

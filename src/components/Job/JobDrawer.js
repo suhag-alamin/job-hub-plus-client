@@ -16,7 +16,7 @@ const JobDrawer = (props) => {
     <Box sx={{ py: 6, px: 8 }}>
       <Box sx={{ textAlign: "right" }}>
         <Link target="_blank" to={`/job-details/${job._id}`}>
-          Open Link in a New Tab
+          Open in a New Tab
         </Link>
       </Box>
       <Box sx={{ display: "flex", justifyContent: "space-between", mt: 4 }}>

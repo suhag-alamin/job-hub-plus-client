@@ -161,16 +161,16 @@ const EmployerRegistration = () => {
               </FormControl>
             </Stack>
             <Stack sx={{ my: 2 }} direction="row" gap={4}>
+              <Box sx={{ width: 1 }}>
+                <CountrySelect setCountry={setCountry} />
+              </Box>
               <TextField
                 fullWidth
                 type="url"
                 variant="filled"
-                label="LinkedIn Link"
-                {...register("linkedinLink")}
+                label="Company Website"
+                {...register("companyWebsite")}
               />
-              <Box sx={{ width: 1 }}>
-                <CountrySelect setCountry={setCountry} />
-              </Box>
             </Stack>
             <Stack sx={{ my: 2 }} direction="row" gap={4}>
               <TextField

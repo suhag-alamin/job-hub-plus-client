@@ -8,9 +8,11 @@ const jobApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Jobs"],
     }),
     getJobs: builder.query({
       query: () => "/jobs",
+      providesTags: ["Jobs"],
     }),
     getJobById: builder.query({
       query: (id) => `/job/${id}`,

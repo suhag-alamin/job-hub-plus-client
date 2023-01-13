@@ -1,7 +1,7 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
+import { BsFacebook, BsTwitter } from "react-icons/bs";
 import { IoIosFlash } from "react-icons/io";
 import { FacebookShareButton, TwitterShareButton } from "react-share";
-import { BsFacebook, BsTwitter } from "react-icons/bs";
 
 const JobDetails = ({ job }) => {
   const {
@@ -69,10 +69,10 @@ const JobDetails = ({ job }) => {
           Salary Range: ${salaryRange}
         </Typography>
         <Typography sx={{ fontSize: 14 }} variant="subtitle2">
-          Work Level: ${workLevel}
+          Work Level: {workLevel}
         </Typography>
         <Typography sx={{ fontSize: 14 }} variant="subtitle2">
-          Experience: ${experience}
+          Experience: {experience}
         </Typography>
       </Box>
       <Box sx={{ my: 4 }}>
@@ -166,7 +166,7 @@ const JobDetails = ({ job }) => {
           <FacebookShareButton
             url={`https://jobhubplus.web.app/job-details/${job?._id}`}
             quote={`I found this job on JobHubPlus and I think it's a good fit for you. Check it out!`}
-            title={`${job?.position} | JobHubPlus`}
+            title={`${position} | JobHubPlus`}
             hashtag={`#${skills[0]} #${skills[1]} #${skills[2]} #suhag_al_amin`}
           >
             <Button sx={{ fontSize: 20 }} variant="outlined">
@@ -176,7 +176,7 @@ const JobDetails = ({ job }) => {
 
           <TwitterShareButton
             url={`https://jobhubplus.web.app/job-details/${job?._id}`}
-            title={`${job?.position} | JobHubPlus`}
+            title={`${position} | JobHubPlus`}
             hashtag={`#${skills[0]} #${skills[1]} #${skills[2]} #suhag_al_amin`}
           >
             <Button sx={{ fontSize: 20 }} variant="outlined">
