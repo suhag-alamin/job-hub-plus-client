@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 import { AiFillLinkedin, AiOutlineLink } from "react-icons/ai";
 import {
   BsArrowReturnRight,
@@ -19,7 +20,8 @@ import {
 } from "react-icons/bs";
 import { IoIosFlash } from "react-icons/io";
 import { RiWhatsappFill } from "react-icons/ri";
-import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   EmailShareButton,
   FacebookShareButton,
@@ -34,6 +36,9 @@ const JobDetailsPage = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetJobByIdQuery(id);
   const [isCopied, setIsCopied] = useState(false);
+
+  const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   if (isLoading) {
     return (
@@ -52,13 +57,25 @@ const JobDetailsPage = () => {
     skills,
     responsibilities,
     requirements,
-  } = data?.data;
+  } = data?.data || {};
 
   const handleCopyToClipboard = () => {
     navigator.clipboard.writeText(
       `${window.location.origin}/job-details/${_id}`
     );
     setIsCopied(true);
+  };
+
+  const handleApply = () => {
+    if (user?.role === "employer") {
+      toast.error("You need a candidate account to apply for a job", {
+        id: "apply",
+      });
+    } else if (user?.role === "") {
+      navigate("/register");
+    } else {
+      navigate("/apply");
+    }
   };
 
   return (
@@ -182,6 +199,7 @@ const JobDetailsPage = () => {
             >
               <Box>
                 <Button
+                  onClick={handleApply}
                   sx={{ fontWeight: 700, textTransform: "inherit" }}
                   color="secondary"
                   variant="contained"

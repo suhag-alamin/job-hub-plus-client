@@ -4,6 +4,9 @@ import { IoIosFlash } from "react-icons/io";
 import { FacebookShareButton, TwitterShareButton } from "react-share";
 import { AiOutlineLink } from "react-icons/ai";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { toast } from "react-hot-toast";
 
 const JobDetails = ({ job }) => {
   const {
@@ -28,6 +31,21 @@ const JobDetails = ({ job }) => {
       `${window.location.origin}/job-details/${job._id}`
     );
     setIsCopied(true);
+  };
+
+  const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  const handleApply = () => {
+    if (user?.role === "employer") {
+      toast.error("You need a candidate account to apply for a job", {
+        id: "apply",
+      });
+    } else if (user?.role === "") {
+      navigate("/register");
+    } else {
+      navigate("/apply");
+    }
   };
 
   return (
@@ -78,7 +96,8 @@ const JobDetails = ({ job }) => {
           variant="subtitle2"
           gutterBottom
         >
-          Salary Range: ${salaryRange[0]} - ${salaryRange[1]}
+          Salary Range: ${salaryRange[0]?.toLocaleString()} - $
+          {salaryRange[1]?.toLocaleString()}
         </Typography>
         <Typography sx={{ fontSize: 14 }} variant="subtitle2">
           Work Level: {workLevel}
@@ -163,6 +182,7 @@ const JobDetails = ({ job }) => {
       >
         <Box>
           <Button
+            onClick={handleApply}
             sx={{ fontWeight: 700, textTransform: "inherit" }}
             color="secondary"
             variant="contained"

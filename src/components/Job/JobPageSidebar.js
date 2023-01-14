@@ -1,5 +1,5 @@
 import { Box, Button, Paper, Typography } from "@mui/material";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { addToSaveJob } from "../../features/job/jobSlice";
 
@@ -91,7 +91,8 @@ const JobPageSidebar = ({ job }) => {
             variant="subtitle1"
             color="success.main"
           >
-            ${salaryRange[0]} - ${salaryRange[1]}
+            ${salaryRange[0]?.toLocaleString()} - $
+            {salaryRange[1]?.toLocaleString()}
           </Typography>
         </Box>
         <Box sx={{ my: 2 }}>

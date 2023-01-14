@@ -38,7 +38,7 @@ const Login = () => {
       toast.success("Login successful!", { id: "login" });
       navigate("/");
       dispatch(toggleIsSuccess());
-    } else if (isError && !isSuccess) {
+    } else if (isError && !isSuccess && !isLoading) {
       toast.error(error, { id: "login" });
     }
   }, [isError, error, isSuccess, isLoading, reset, navigate, dispatch]);

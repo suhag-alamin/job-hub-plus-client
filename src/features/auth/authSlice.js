@@ -73,8 +73,7 @@ const authSlice = createSlice({
       state.isLoading = false;
     },
     logout: (state) => {
-      state.user.email = "";
-      state.role = "";
+      state.user = { email: "", role: "" };
     },
     setUser: (state, { payload }) => {
       state.user.email = payload;

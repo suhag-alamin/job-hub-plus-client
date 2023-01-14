@@ -87,7 +87,8 @@ const JobCard = ({ job }) => {
             color="secondary"
             variant="subtitle2"
           >
-            ${salaryRange[0]} - ${salaryRange[1]}
+            ${salaryRange[0]?.toLocaleString()} - $
+            {salaryRange[1]?.toLocaleString()}
           </Typography>
         </Box>
       </Paper>
