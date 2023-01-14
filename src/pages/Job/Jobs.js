@@ -89,6 +89,7 @@ const Jobs = () => {
         })
         ?.filter((job) => {
           if (salaryRange.length > 0) {
+            if (salaryRange[0] === 500 && salaryRange[1] === 3000) return job;
             return (
               salaryRange[0] <= job?.salaryRange[0] &&
               salaryRange[1] >= job?.salaryRange[1]
