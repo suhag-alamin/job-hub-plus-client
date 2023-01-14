@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import PropTypes from "prop-types";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { IoIosFlash } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -22,7 +22,7 @@ const JobDrawer = (props) => {
   );
 
   const drawer = (
-    <Box sx={{ py: 6, px: 8 }}>
+    <Box sx={{ py: { xs: 2, md: 6 }, px: { xs: 2, md: 8 } }}>
       <Box sx={{ textAlign: "right" }}>
         <Link target="_blank" to={`/job-details/${job._id}`}>
           Open in a New Tab

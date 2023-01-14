@@ -2,7 +2,6 @@ import { Button, Container } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
@@ -51,8 +50,6 @@ const Navbar = (props) => {
           Home
         </NavLink>
 
-        <Divider />
-
         <NavLink
           className={(navInfo) =>
             navInfo.isActive ? navStyles.navSelected : navStyles.navLink
@@ -61,8 +58,6 @@ const Navbar = (props) => {
         >
           Jobs
         </NavLink>
-
-        <Divider />
 
         {!email ? (
           <NavLink to="/login">
@@ -101,25 +96,24 @@ const Navbar = (props) => {
                 Get Started
               </NavLink>
             )}
-            <Divider />
 
-            <Divider />
-            <Button
-              onClick={handleLogOut}
-              sx={{
-                borderRadius: 8,
-                alignItems: "center",
-                textTransform: "inherit",
-              }}
-              variant="contained"
-              startIcon={<RiLogoutCircleFill />}
-            >
-              Log Out
-            </Button>
+            <Box>
+              <Button
+                onClick={handleLogOut}
+                sx={{
+                  borderRadius: 8,
+                  alignItems: "center",
+                  textTransform: "inherit",
+                  my: 1,
+                }}
+                variant="contained"
+                startIcon={<RiLogoutCircleFill />}
+              >
+                Log Out
+              </Button>
+            </Box>
           </Box>
         )}
-
-        <Divider />
       </nav>
     </Box>
   );

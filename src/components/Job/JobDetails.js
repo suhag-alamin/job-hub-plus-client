@@ -2,6 +2,8 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import { BsFacebook, BsTwitter } from "react-icons/bs";
 import { IoIosFlash } from "react-icons/io";
 import { FacebookShareButton, TwitterShareButton } from "react-share";
+import { AiOutlineLink } from "react-icons/ai";
+import { useState } from "react";
 
 const JobDetails = ({ job }) => {
   const {
@@ -18,6 +20,16 @@ const JobDetails = ({ job }) => {
     requirements,
     workType,
   } = job;
+
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleCopyToClipboard = () => {
+    navigator.clipboard.writeText(
+      `${window.location.origin}/job-details/${job._id}`
+    );
+    setIsCopied(true);
+  };
+
   return (
     <div>
       <Box>
@@ -183,6 +195,14 @@ const JobDetails = ({ job }) => {
               <BsTwitter />
             </Button>
           </TwitterShareButton>
+          <Button
+            onClick={handleCopyToClipboard}
+            sx={{ textTransform: "inherit" }}
+            variant={isCopied ? "contained" : "outlined"}
+            startIcon={<AiOutlineLink />}
+          >
+            {isCopied ? "Copied" : "Copy Link"}
+          </Button>
         </Stack>
       </Box>
     </div>

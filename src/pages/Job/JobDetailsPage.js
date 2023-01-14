@@ -9,7 +9,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { AiFillLinkedin } from "react-icons/ai";
+import { useState } from "react";
+import { AiFillLinkedin, AiOutlineLink } from "react-icons/ai";
 import {
   BsArrowReturnRight,
   BsFacebook,
@@ -32,6 +33,7 @@ import { useGetJobByIdQuery } from "../../features/job/jobApi";
 const JobDetailsPage = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetJobByIdQuery(id);
+  const [isCopied, setIsCopied] = useState(false);
 
   if (isLoading) {
     return (
@@ -51,6 +53,13 @@ const JobDetailsPage = () => {
     responsibilities,
     requirements,
   } = data?.data;
+
+  const handleCopyToClipboard = () => {
+    navigator.clipboard.writeText(
+      `${window.location.origin}/job-details/${_id}`
+    );
+    setIsCopied(true);
+  };
 
   return (
     <div>
@@ -167,6 +176,8 @@ const JobDetailsPage = () => {
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
+                gap: 2,
+                flexDirection: { xs: "column", sm: "row" },
               }}
             >
               <Box>
@@ -182,7 +193,8 @@ const JobDetailsPage = () => {
               <Stack
                 sx={{ alignItems: "center", py: 2 }}
                 direction="row"
-                gap={2}
+                gap={1}
+                flexWrap="wrap"
               >
                 <Typography sx={{ fontSize: 16 }} variant="body1">
                   Share on Social Media:
@@ -234,6 +246,14 @@ const JobDetailsPage = () => {
                     <BsFillEnvelopeFill />
                   </Button>
                 </EmailShareButton>
+                <Button
+                  onClick={handleCopyToClipboard}
+                  sx={{ textTransform: "inherit" }}
+                  variant={isCopied ? "contained" : "outlined"}
+                  startIcon={<AiOutlineLink />}
+                >
+                  {isCopied ? "Copied" : "Copy"}
+                </Button>
               </Stack>
             </Box>
           </Grid>
@@ -247,7 +267,11 @@ const JobDetailsPage = () => {
         <Typography sx={{ fontSize: 20 }} variant="h4" color="primary">
           General Q/A
         </Typography>
-        <Stack sx={{ my: 4, width: 2 / 3 }} direction="row" gap={2}>
+        <Stack
+          sx={{ my: 4, width: { xs: 1, md: 2 / 3 } }}
+          direction="row"
+          gap={2}
+        >
           <TextField fullWidth label="Ask a question" />
           <Button sx={{ fontSize: 20 }} variant="outlined">
             <BsArrowReturnRight />

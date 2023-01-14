@@ -1,5 +1,6 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import JobDrawer from "./JobDrawer";
 
 const JobCard = ({ job }) => {
@@ -14,9 +15,17 @@ const JobCard = ({ job }) => {
 
   // drawer
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
+
+  // check screen size
+  const isMobile = window.innerWidth < 600;
 
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
+    if (isMobile) {
+      navigate(`/job-details/${job._id}`);
+    } else {
+      setMobileOpen(!mobileOpen);
+    }
   };
 
   return (

@@ -56,7 +56,7 @@ const JobFilter = () => {
         direction="row"
         alignItems="center"
         flexWrap={{ xs: "wrap", md: "inherit" }}
-        gap={4}
+        gap={{ xs: 1, md: 4 }}
       >
         {/* job types  */}
         <FormControl fullWidth>
