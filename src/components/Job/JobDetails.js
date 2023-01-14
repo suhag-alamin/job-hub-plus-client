@@ -66,7 +66,7 @@ const JobDetails = ({ job }) => {
           variant="subtitle2"
           gutterBottom
         >
-          Salary Range: ${salaryRange}
+          Salary Range: ${salaryRange[0]} - ${salaryRange[1]}
         </Typography>
         <Typography sx={{ fontSize: 14 }} variant="subtitle2">
           Work Level: {workLevel}

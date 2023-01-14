@@ -91,7 +91,7 @@ const JobPageSidebar = ({ job }) => {
             variant="subtitle1"
             color="success.main"
           >
-            ${salaryRange}
+            ${salaryRange[0]} - ${salaryRange[1]}
           </Typography>
         </Box>
         <Box sx={{ my: 2 }}>

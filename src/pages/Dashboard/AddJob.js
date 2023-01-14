@@ -60,20 +60,31 @@ const AddJob = () => {
     data.employeeRange = employeeRange;
     data.employerEmail = email;
     data.createdDate = new Date().toISOString();
+    if (parseInt(data.salaryRangeFrom) < parseInt(data.salaryRangeTo)) {
+      data.salaryRange = [
+        parseInt(data.salaryRangeFrom),
+        parseInt(data.salaryRangeTo),
+      ];
+
+      delete data.salaryRangeFrom;
+      delete data.salaryRangeTo;
+    } else {
+      toast.error("Salary range is not valid", { id: "job-post" });
+      return;
+    }
 
     postJob(data);
-    console.log(data);
   };
 
   useEffect(() => {
     if (!isLoading && !isError && isSuccess) {
-      toast.success("Job posted successfully");
+      toast.success("Job posted successfully", { id: "job-post" });
       navigate("/dashboard");
     }
     if (!isLoading && isError) {
       toast.error(error.status);
     }
-  }, [isLoading, isError, error, isSuccess]);
+  }, [isLoading, isError, error, isSuccess, navigate]);
 
   return (
     <>
@@ -120,13 +131,15 @@ const AddJob = () => {
                 variant="filled"
                 label="Experience"
                 {...register("experience")}
+                helperText="e.g. 2 years"
               />
               <TextField
                 fullWidth
                 type="text"
                 variant="filled"
-                label=" Work Level"
+                label="Work Level"
                 {...register("workLevel")}
+                helperText="e.g. Junior"
               />
             </Stack>
             <Stack sx={{ my: 2 }} direction="row" gap={4}>
@@ -143,14 +156,26 @@ const AddJob = () => {
                   <MenuItem value="internship">Internship</MenuItem>
                 </Select>
               </FormControl>
-              <TextField
-                fullWidth
-                type="text"
-                variant="filled"
-                label="Salary Range"
-                helperText="e.g. $10000-20000 Per Month"
-                {...register("salaryRange")}
-              />
+              <FormControl fullWidth>
+                <Stack direction="row" gap={2}>
+                  <TextField
+                    sx={{ width: 1 / 2 }}
+                    type="number"
+                    variant="filled"
+                    label="Salary Range From $"
+                    helperText="Salary Range From $1000"
+                    {...register("salaryRangeFrom")}
+                  />
+                  <TextField
+                    sx={{ width: 1 / 2 }}
+                    type="number"
+                    variant="filled"
+                    label="Salary Range To $"
+                    helperText="Salary Range To $5000"
+                    {...register("salaryRangeTo")}
+                  />
+                </Stack>
+              </FormControl>
             </Stack>
             <Stack sx={{ my: 2 }} direction="row" gap={4}>
               <TextField
@@ -159,6 +184,7 @@ const AddJob = () => {
                 variant="filled"
                 label="Location"
                 {...register("location")}
+                helperText="e.g. New York, USA"
               />
               <FormControl fullWidth>
                 <FormLabel>Work Type</FormLabel>
@@ -187,6 +213,7 @@ const AddJob = () => {
                 variant="filled"
                 label="Overview"
                 {...register("overview")}
+                helperText="e.g. We are looking for a talented and experienced..."
               />
             </Stack>
             {/* skills  */}

@@ -78,7 +78,7 @@ const JobCard = ({ job }) => {
             color="secondary"
             variant="subtitle2"
           >
-            ${salaryRange}
+            ${salaryRange[0]} - ${salaryRange[1]}
           </Typography>
         </Box>
       </Paper>

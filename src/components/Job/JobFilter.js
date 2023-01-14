@@ -6,8 +6,10 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Slider,
   Stack,
   Switch,
+  Typography,
 } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -89,7 +91,7 @@ const JobFilter = () => {
           </Select>
         </FormControl>
         {/* salary range  */}
-        {/* <Box sx={{ width: 1 }}>
+        <Box sx={{ width: 1 }}>
           <Typography variant="subtitle1" gutterBottom>
             Salary Range
           </Typography>
@@ -101,7 +103,7 @@ const JobFilter = () => {
             onChange={handleRangeChange}
             valueLabelDisplay="auto"
           />
-        </Box> */}
+        </Box>
 
         {/* remote  */}
 

@@ -10,6 +10,8 @@ const Jobs = () => {
   const { employmentType, postedTime, salaryRange, remote } = useSelector(
     (state) => state.filter
   );
+
+  // for postedTime filter
   const now = new Date();
   const twentyFourHoursAgo = new Date(
     now.getTime() - 24 * 60 * 60 * 1000
@@ -36,6 +38,7 @@ const Jobs = () => {
         <LinearProgress />
       </Box>
     );
+    return content;
   } else if (!isLoading && isError) {
     content = (
       <Typography sx={{ textAlign: "center" }} variant="h5" color="error">
@@ -52,7 +55,12 @@ const Jobs = () => {
     if (employmentType === "all" || postedTime === "any-time") {
       content = data?.data?.map((job) => <JobCard key={job._id} job={job} />);
     }
-    if (employmentType !== "all" || postedTime !== "any-time" || remote) {
+    if (
+      employmentType !== "all" ||
+      postedTime !== "any-time" ||
+      remote ||
+      salaryRange
+    ) {
       content = data?.data
         ?.filter((job) => {
           if (employmentType !== "all") {
@@ -79,6 +87,15 @@ const Jobs = () => {
           }
           return job;
         })
+        ?.filter((job) => {
+          if (salaryRange.length > 0) {
+            return (
+              salaryRange[0] <= job?.salaryRange[0] &&
+              salaryRange[1] >= job?.salaryRange[1]
+            );
+          }
+          return job;
+        })
         ?.map((job) => <JobCard key={job._id} job={job} />);
     }
   }
@@ -94,7 +111,15 @@ const Jobs = () => {
         <Typography sx={{ fontSize: 20, mb: 2 }} variant="h4">
           Available Jobs for you -
         </Typography>
-        {content}
+        {content.length ? (
+          content
+        ) : (
+          <Box sx={{ textAlign: "center" }}>
+            <Typography variant="h5" color="error">
+              No matching jobs found
+            </Typography>
+          </Box>
+        )}
       </Container>
     </div>
   );

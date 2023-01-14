@@ -70,7 +70,7 @@ const Signup = () => {
     } else if (isError && !isSuccess) {
       toast.error(error, { id: "signup" });
     }
-  }, [isError, error, isSuccess, isLoading]);
+  }, [isError, error, isSuccess, isLoading, dispatch, navigate, reset]);
 
   // handle submit
   const onSubmit = (data) => {

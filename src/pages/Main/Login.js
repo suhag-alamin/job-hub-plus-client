@@ -41,7 +41,7 @@ const Login = () => {
     } else if (isError && !isSuccess) {
       toast.error(error, { id: "login" });
     }
-  }, [isError, error, isSuccess]);
+  }, [isError, error, isSuccess, isLoading, reset, navigate, dispatch]);
 
   // email password login
   const onSubmit = ({ email, password }) => {

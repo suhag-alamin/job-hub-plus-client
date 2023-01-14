@@ -54,7 +54,7 @@ const CandidateRegistration = () => {
     } else if (!isLoading && !isSuccess && isError) {
       toast.error(error.message, { id: "user-register" });
     }
-  }, [isLoading, isError, isSuccess, error]);
+  }, [isLoading, isError, isSuccess, error, navigate]);
 
   const handleBack = () => {
     navigate("/register");
