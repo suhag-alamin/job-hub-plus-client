@@ -3,6 +3,7 @@ import Dashboard from "../layout/Dashboard/Dashboard";
 import Main from "../layout/Main/Main";
 import Apply from "../pages/Apply";
 import AddJob from "../pages/Dashboard/AddJob";
+import AppliedJobs from "../pages/Dashboard/AppliedJobs";
 import JobDetailsPage from "../pages/Job/JobDetailsPage";
 import Jobs from "../pages/Job/Jobs";
 import Home from "../pages/Main/Home/Home";
@@ -74,6 +75,10 @@ const routes = createBrowserRouter([
       {
         path: "add-job",
         element: <AddJob />,
+      },
+      {
+        path: "applied-jobs",
+        element: <AppliedJobs />,
       },
     ],
   },

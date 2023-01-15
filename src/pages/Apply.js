@@ -1,26 +1,33 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Container,
   LinearProgress,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { AiOutlineFilePdf } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { toast } from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { useGetJobByIdQuery } from "../features/job/jobApi";
+import {
+  useApplyJobMutation,
+  useGetJobByIdQuery,
+} from "../features/job/jobApi";
 
 const Apply = () => {
   const { jobId } = useParams();
-  const { data, isLoading } = useGetJobByIdQuery(jobId);
+  const { data, isLoading: jobLoading } = useGetJobByIdQuery(jobId);
   const { companyName, position } = data?.data || {};
 
   const {
     user: { _id, email, firstName, lastName },
   } = useSelector((state) => state.auth);
+  const [applyJob, { isLoading, isError, isSuccess }] = useApplyJobMutation();
+  const dispatch = useDispatch();
 
   const { handleSubmit, register } = useForm({
     defaultValues: {
@@ -35,9 +42,24 @@ const Apply = () => {
   const onSubmit = (data) => {
     data.userId = _id;
     data.jobId = jobId;
-    console.log(data);
+
+    dispatch(applyJob(data));
   };
-  if (isLoading) {
+
+  useEffect(() => {
+    if (isSuccess && !isError && !isLoading) {
+      toast.success("Job application submitted successfully", {
+        id: "applyJob",
+      });
+      navigate("/dashboard");
+    } else if (isError && !isLoading && !isSuccess) {
+      toast.error("Job application failed. Please try again later.", {
+        id: "applyJob",
+      });
+    }
+  }, [isLoading, isSuccess, isError, navigate]);
+
+  if (jobLoading) {
     return (
       <Box>
         <LinearProgress />
@@ -117,35 +139,37 @@ const Apply = () => {
                 fullWidth
                 type="text"
                 variant="standard"
-                label="Job title"
-                {...register("jobTitle")}
+                label="Relevant Previous Job Title"
+                {...register("previousJobTitle")}
               />
               <TextField
                 fullWidth
                 type="text"
                 variant="standard"
-                label="Company Name"
-                {...register("companyName")}
+                label="Relevant Previous Company Name"
+                {...register("previousCompanyName")}
               />
             </Stack>
             <Box sx={{ my: 2 }}>
-              <Typography variant="subtitle1" gutterBottom>
+              {/* <Typography variant="subtitle1" gutterBottom>
                 Resume (required)
-              </Typography>
-              <Button
-                variant="outlined"
-                component="label"
-                sx={{ textTransform: "inherit" }}
-                startIcon={<AiOutlineFilePdf />}
-              >
-                Upload Resume (PDF)
-                <input
-                  hidden
-                  accept="application/pdf"
-                  type="file"
-                  {...register("resume")}
-                />
-              </Button>
+              </Typography> */}
+
+              {/* <Input
+                // onChange={handleFileUpload}
+                accept="application/pdf"
+                type="file"
+                {...register("resume")}
+              /> */}
+              <TextField
+                required={true}
+                fullWidth
+                type="url"
+                variant="standard"
+                label="Resume link"
+                helperText="Please provide a link to your resume. We recommend using Google Drive or Dropbox."
+                {...register("resumeLink")}
+              />
             </Box>
             <Stack sx={{ my: 2 }} direction="row" gap={4}>
               <TextField
@@ -163,8 +187,13 @@ const Apply = () => {
                 sx={{ textTransform: "inherit" }}
                 type="submit"
                 variant="contained"
+                disabled={isLoading}
               >
-                Apply Now
+                {isLoading ? (
+                  <CircularProgress size="20px" color="info" />
+                ) : (
+                  "Submit"
+                )}
               </Button>
             </Box>
           </form>

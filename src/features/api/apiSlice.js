@@ -14,7 +14,7 @@ const apiSlice = createApi({
     baseUrl: URL,
   }),
   endpoints: (builder) => ({}),
-  tagTypes: ["Jobs"],
+  tagTypes: ["Jobs", "AppliedJobs"],
 });
 
 export default apiSlice;
