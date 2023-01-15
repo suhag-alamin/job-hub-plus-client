@@ -74,7 +74,7 @@ const JobDetailsPage = () => {
     } else if (user?.role === "") {
       navigate("/register");
     } else {
-      navigate("/apply");
+      navigate(`/apply/${_id}`);
     }
   };
 

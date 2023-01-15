@@ -103,6 +103,7 @@ const CandidateRegistration = () => {
             <Stack sx={{ my: 2 }} direction="row" gap={4}>
               <TextField
                 fullWidth
+                disabled
                 type="email"
                 variant="filled"
                 label="Email"

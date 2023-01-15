@@ -44,7 +44,7 @@ const JobDetails = ({ job }) => {
     } else if (user?.role === "") {
       navigate("/register");
     } else {
-      navigate("/apply");
+      navigate(`/apply/${job?._id}`);
     }
   };
 

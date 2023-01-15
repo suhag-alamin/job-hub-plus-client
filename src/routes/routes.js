@@ -1,15 +1,16 @@
 import { createBrowserRouter } from "react-router-dom";
 import Dashboard from "../layout/Dashboard/Dashboard";
 import Main from "../layout/Main/Main";
+import Apply from "../pages/Apply";
 import AddJob from "../pages/Dashboard/AddJob";
-import Home from "../pages/Main/Home/Home";
+import JobDetailsPage from "../pages/Job/JobDetailsPage";
 import Jobs from "../pages/Job/Jobs";
+import Home from "../pages/Main/Home/Home";
 import Login from "../pages/Main/Login";
 import NotFound from "../pages/Main/NotFound";
 import Register from "../pages/Main/Register/Register";
 import Signup from "../pages/Main/Signup";
 import PrivateRoute from "../utils/PrivateRoute";
-import JobDetailsPage from "../pages/Job/JobDetailsPage";
 
 const routes = createBrowserRouter([
   {
@@ -24,6 +25,14 @@ const routes = createBrowserRouter([
       {
         path: "/job-details/:id",
         element: <JobDetailsPage />,
+      },
+      {
+        path: "/apply/:jobId",
+        element: (
+          <PrivateRoute>
+            <Apply />
+          </PrivateRoute>
+        ),
       },
 
       {
