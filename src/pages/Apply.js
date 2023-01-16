@@ -21,7 +21,8 @@ import {
 const Apply = () => {
   const { jobId } = useParams();
   const { data, isLoading: jobLoading } = useGetJobByIdQuery(jobId);
-  const { companyName, position } = data?.data || {};
+  const { companyName, position, companyWebsite, employmentType, salaryRange } =
+    data?.data || {};
 
   const {
     user: { _id, email, firstName, lastName },
@@ -40,9 +41,17 @@ const Apply = () => {
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
+    data.candidateName = `${data.firstName} ${data.lastName}`;
     data.userId = _id;
     data.jobId = jobId;
+    data.jobPosition = position;
+    data.companyName = companyName;
+    data.companyWebsite = companyWebsite;
+    data.employmentType = employmentType;
+    data.status = "applied";
 
+    delete data.firstName;
+    delete data.lastName;
     dispatch(applyJob(data));
   };
 
