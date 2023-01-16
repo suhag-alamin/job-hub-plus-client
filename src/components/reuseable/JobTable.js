@@ -9,8 +9,25 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { useEffect } from "react";
+import { toast } from "react-hot-toast";
+import { useCancelAppliedJobMutation } from "../../features/job/jobApi";
 
 const JobTable = ({ jobs }) => {
+  const [cancelApplication, { isLoading, isError, isSuccess }] =
+    useCancelAppliedJobMutation();
+
+  const handleCancelApplication = (id) => {
+    cancelApplication(id);
+  };
+
+  useEffect(() => {
+    if (!isLoading && !isError && isSuccess) {
+      toast.success("Application cancelled successfully", { id: "cancel" });
+    } else if (!isLoading && isError) {
+      toast.error("Something went wrong", { id: "cancel" });
+    }
+  }, [isLoading, isError, isSuccess]);
   return (
     <Box sx={{ overflowX: "hidden", width: { xs: 300, sm: 600, md: 1 } }}>
       <Paper sx={{ boxShadow: 2, borderRadius: 2, overflowX: "auto" }}>
@@ -82,6 +99,14 @@ const JobTable = ({ jobs }) => {
                   sx={{ color: "info.main", fontWeight: 700 }}
                   variant="subtitle1"
                 >
+                  Status
+                </Typography>
+              </TableCell>
+              <TableCell sx={{ p: 1 }} align="center">
+                <Typography
+                  sx={{ color: "info.main", fontWeight: 700 }}
+                  variant="subtitle1"
+                >
                   Actions
                 </Typography>
               </TableCell>
@@ -110,8 +135,15 @@ const JobTable = ({ jobs }) => {
                 <TableCell sx={{ p: 1 }} align="center">
                   {job.employmentType.toUpperCase()}
                 </TableCell>
+                <TableCell sx={{ p: 1 }} align="center">
+                  {job.status}
+                </TableCell>
                 <TableCell align="center">
-                  <Button sx={{ textTransform: "inherit" }} variant="outlined">
+                  <Button
+                    onClick={() => handleCancelApplication(job._id)}
+                    sx={{ textTransform: "inherit" }}
+                    variant="outlined"
+                  >
                     Cancel
                   </Button>
                 </TableCell>

@@ -29,6 +29,13 @@ const jobApi = apiSlice.injectEndpoints({
       query: (email) => `/applied-jobs/${email}`,
       providesTags: ["AppliedJobs"],
     }),
+    cancelAppliedJob: builder.mutation({
+      query: (id) => ({
+        url: `/cancel-applied-job/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["AppliedJobs"],
+    }),
   }),
 });
 
@@ -38,4 +45,5 @@ export const {
   useGetJobByIdQuery,
   useApplyJobMutation,
   useGetAppliedJobsByEmailQuery,
+  useCancelAppliedJobMutation,
 } = jobApi;
