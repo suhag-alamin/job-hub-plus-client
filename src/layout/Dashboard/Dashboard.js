@@ -97,28 +97,32 @@ function Dashboard(props) {
             />
           </ListItem> */}
 
-        <ListItem>
-          <ListItemIcon>
-            <AiOutlineControl className={dashStyles.dashboardMenuIcon} />
-          </ListItemIcon>
-          <ListItemText
-            as={Link}
-            to={`/dashboard/manage-jobs`}
-            className={dashStyles.menuItem}
-            primary="Manage Jobs"
-          />
-        </ListItem>
-        <ListItem>
-          <ListItemIcon>
-            <IoAddCircleOutline className={dashStyles.dashboardMenuIcon} />
-          </ListItemIcon>
-          <ListItemText
-            as={Link}
-            to={`/dashboard/add-job`}
-            className={dashStyles.menuItem}
-            primary="Add Job"
-          />
-        </ListItem>
+        {user?.role === "employer" && (
+          <>
+            <ListItem>
+              <ListItemIcon>
+                <AiOutlineControl className={dashStyles.dashboardMenuIcon} />
+              </ListItemIcon>
+              <ListItemText
+                as={Link}
+                to={`/dashboard/manage-jobs`}
+                className={dashStyles.menuItem}
+                primary="Manage Jobs"
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <IoAddCircleOutline className={dashStyles.dashboardMenuIcon} />
+              </ListItemIcon>
+              <ListItemText
+                as={Link}
+                to={`/dashboard/add-job`}
+                className={dashStyles.menuItem}
+                primary="Add Job"
+              />
+            </ListItem>
+          </>
+        )}
         <ListItem>
           <ListItemIcon>
             <BsClipboardData className={dashStyles.dashboardMenuIcon} />

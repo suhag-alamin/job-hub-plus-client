@@ -29,8 +29,8 @@ const Navbar = (props) => {
 
   const handleLogOut = () => {
     signOut(auth).then(() => {
-      dispatch(logout());
       dispatch(toggleIsSuccess());
+      dispatch(logout());
     });
   };
 
