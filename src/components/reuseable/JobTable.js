@@ -18,7 +18,12 @@ const JobTable = ({ jobs }) => {
     useCancelAppliedJobMutation();
 
   const handleCancelApplication = (id) => {
-    cancelApplication(id);
+    const confirm = window.confirm("Are you sure you want to cancel?");
+    if (confirm) {
+      cancelApplication(id);
+    } else {
+      return;
+    }
   };
 
   useEffect(() => {

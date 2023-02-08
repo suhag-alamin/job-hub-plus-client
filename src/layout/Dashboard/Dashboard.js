@@ -14,6 +14,7 @@ import PropTypes from "prop-types";
 import * as React from "react";
 import { AiOutlineControl, AiOutlineHome, AiOutlineMenu } from "react-icons/ai";
 import { BsClipboardData } from "react-icons/bs";
+import { HiQueueList } from "react-icons/hi2";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { MdOutlineDashboard } from "react-icons/md";
 import { RiLogoutCircleFill } from "react-icons/ri";
@@ -21,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 import { logout } from "../../features/auth/authSlice";
 import dashStyles from "../../styles/Dashboard.module.scss";
+import { MdPlaylistAddCheck } from "react-icons/md";
 
 const drawerWidth = 240;
 
@@ -62,6 +64,17 @@ function Dashboard(props) {
       <Divider />
 
       <Box sx={{ py: 4 }}>
+        <ListItem color="primary">
+          <ListItemIcon>
+            <MdOutlineDashboard className={dashStyles.dashboardMenuIcon} />
+          </ListItemIcon>
+          <ListItemText
+            as={Link}
+            to="/dashboard"
+            className={dashStyles.menuItem}
+            primary="Dashboard"
+          />
+        </ListItem>
         <ListItem>
           <ListItemIcon>
             <AiOutlineHome className={dashStyles.dashboardMenuIcon} />
@@ -73,15 +86,15 @@ function Dashboard(props) {
             primary="Home"
           />
         </ListItem>
-        <ListItem color="primary">
+        <ListItem>
           <ListItemIcon>
-            <MdOutlineDashboard className={dashStyles.dashboardMenuIcon} />
+            <HiQueueList className={dashStyles.dashboardMenuIcon} />
           </ListItemIcon>
           <ListItemText
             as={Link}
-            to="/dashboard"
+            to="/jobs"
             className={dashStyles.menuItem}
-            primary="Dashboard"
+            primary="Jobs"
           />
         </ListItem>
 
@@ -123,17 +136,32 @@ function Dashboard(props) {
             </ListItem>
           </>
         )}
-        <ListItem>
-          <ListItemIcon>
-            <BsClipboardData className={dashStyles.dashboardMenuIcon} />
-          </ListItemIcon>
-          <ListItemText
-            as={Link}
-            to={`/dashboard/applied-jobs`}
-            className={dashStyles.menuItem}
-            primary="Applied Jobs"
-          />
-        </ListItem>
+        {user?.role === "candidate" && (
+          <>
+            <ListItem>
+              <ListItemIcon>
+                <BsClipboardData className={dashStyles.dashboardMenuIcon} />
+              </ListItemIcon>
+              <ListItemText
+                as={Link}
+                to={`/dashboard/applied-jobs`}
+                className={dashStyles.menuItem}
+                primary="Applied Jobs"
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <MdPlaylistAddCheck className={dashStyles.dashboardMenuIcon} />
+              </ListItemIcon>
+              <ListItemText
+                as={Link}
+                to={`/dashboard/saved-jobs`}
+                className={dashStyles.menuItem}
+                primary="Saved Jobs"
+              />
+            </ListItem>
+          </>
+        )}
       </Box>
       {/* log out  */}
       <Box sx={{ mt: "auto" }}>

@@ -218,6 +218,8 @@ const JobDetailsPage = () => {
                   Share on Social Media:
                 </Typography>
                 <FacebookShareButton
+                  windowWidth={750}
+                  windowHeight={675}
                   url={`https://jobhubplus.web.app/job-details/${_id}`}
                   quote={`I found this job on JobHubPlus and I think it's a good fit for you. Check it out!`}
                   title={`${position} | JobHubPlus`}
@@ -228,15 +230,20 @@ const JobDetailsPage = () => {
                   </Button>
                 </FacebookShareButton>
                 <TwitterShareButton
+                  windowWidth={750}
+                  windowHeight={675}
                   url={`https://jobhubplus.web.app/job-details/${_id}`}
                   title={`${position} | JobHubPlus`}
-                  hashtag={`#${skills[0]} #${skills[1]} #${skills[2]} #suhag_al_amin`}
+                  hashtags={`#${skills[0]} #${skills[1]} #${skills[2]} #suhag_al_amin`}
+                  via="suhag_al_amin_me"
                 >
                   <Button sx={{ fontSize: 20 }} variant="outlined">
                     <BsTwitter />
                   </Button>
                 </TwitterShareButton>
                 <LinkedinShareButton
+                  windowWidth={750}
+                  windowHeight={675}
                   url={`https://jobhubplus.web.app/job-details/${_id}`}
                   title={`${position} | JobHubPlus`}
                   summary={`I found this job on JobHubPlus and I think it's a good fit for you. Check it out!`}
@@ -247,6 +254,8 @@ const JobDetailsPage = () => {
                   </Button>
                 </LinkedinShareButton>
                 <WhatsappShareButton
+                  windowWidth={750}
+                  windowHeight={675}
                   url={`https://jobhubplus.web.app/job-details/${_id}`}
                   title={`${position} | JobHubPlus`}
                   separator=":: "
@@ -256,6 +265,8 @@ const JobDetailsPage = () => {
                   </Button>
                 </WhatsappShareButton>
                 <EmailShareButton
+                  windowWidth={750}
+                  windowHeight={675}
                   url={`https://jobhubplus.web.app/job-details/${_id}`}
                   subject={`${position} | JobHubPlus`}
                   body={`I found this job on JobHubPlus and I think it's a good fit for you. Check it out!`}

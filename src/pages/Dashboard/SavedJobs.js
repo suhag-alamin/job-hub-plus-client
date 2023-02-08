@@ -1,22 +1,12 @@
-import { Box, Container, LinearProgress, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
-import JobTable from "../../components/reuseable/JobTable";
-import { useGetAppliedJobsByEmailQuery } from "../../features/job/jobApi";
 
-const AppliedJobs = () => {
-  const {
-    user: { email },
-  } = useSelector((state) => state.auth);
-  const { data, isLoading } = useGetAppliedJobsByEmailQuery(email);
-
-  if (isLoading) {
-    return <LinearProgress />;
-  }
-
+const SavedJobs = () => {
+  const { savedJobs } = useSelector((state) => state.job);
   return (
     <div>
       <Container>
-        {data?.data?.length > 0 ? (
+        {savedJobs?.length > 0 ? (
           <>
             <Box sx={{ mb: 6 }}>
               <Typography
@@ -31,7 +21,7 @@ const AppliedJobs = () => {
                 Applied Jobs
               </Typography>
             </Box>
-            <JobTable jobs={data?.data} />
+            {/* <JobTable jobs={data?.data} /> */}
           </>
         ) : (
           <Typography
@@ -39,7 +29,7 @@ const AppliedJobs = () => {
             variant="h3"
             color="error"
           >
-            No Applied Jobs
+            No Saved Jobs Yet!
           </Typography>
         )}
       </Container>
@@ -47,4 +37,4 @@ const AppliedJobs = () => {
   );
 };
 
-export default AppliedJobs;
+export default SavedJobs;
