@@ -22,7 +22,7 @@ const SavedJobs = () => {
                 Saved Jobs ({savedJobs?.length})
               </Typography>
             </Box>
-            <JobTable jobs={savedJobs} />
+            <JobTable jobs={savedJobs} type="savedJobs" />
           </>
         ) : (
           <Typography

@@ -31,7 +31,7 @@ const AppliedJobs = () => {
                 Applied Jobs
               </Typography>
             </Box>
-            <JobTable jobs={data?.data} />
+            <JobTable jobs={data?.data} type="appliedJob" />
           </>
         ) : (
           <Typography

@@ -17,9 +17,14 @@ const jobSlice = createSlice({
 
       state.savedJobs.push(action.payload);
     },
+    removeFromSaveJob: (state, action) => {
+      state.savedJobs = state.savedJobs.filter(
+        (job) => job._id !== action.payload
+      );
+    },
   },
 });
 
-export const { addToSaveJob } = jobSlice.actions;
+export const { addToSaveJob, removeFromSaveJob } = jobSlice.actions;
 
 export default jobSlice.reducer;
