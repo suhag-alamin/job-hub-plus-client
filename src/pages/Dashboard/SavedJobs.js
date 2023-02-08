@@ -1,5 +1,6 @@
 import { Box, Container, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
+import JobTable from "../../components/reuseable/JobTable";
 
 const SavedJobs = () => {
   const { savedJobs } = useSelector((state) => state.job);
@@ -18,10 +19,10 @@ const SavedJobs = () => {
                 color="secondary"
                 variant="h3"
               >
-                Applied Jobs
+                Saved Jobs ({savedJobs?.length})
               </Typography>
             </Box>
-            {/* <JobTable jobs={data?.data} /> */}
+            <JobTable jobs={savedJobs} />
           </>
         ) : (
           <Typography
