@@ -2,9 +2,10 @@ import { createBrowserRouter } from "react-router-dom";
 import Dashboard from "../layout/Dashboard/Dashboard";
 import Main from "../layout/Main/Main";
 import Apply from "../pages/Apply";
-import AddJob from "../pages/Dashboard/AddJob";
-import AppliedJobs from "../pages/Dashboard/AppliedJobs";
-import SavedJobs from "../pages/Dashboard/SavedJobs";
+import AppliedJobs from "../pages/Dashboard/Candidate/AppliedJobs";
+import SavedJobs from "../pages/Dashboard/Candidate/SavedJobs";
+import AddJob from "../pages/Dashboard/Employer/AddJob";
+import ManageJobs from "../pages/Dashboard/Employer/ManageJobs";
 import JobDetailsPage from "../pages/Job/JobDetailsPage";
 import Jobs from "../pages/Job/Jobs";
 import Home from "../pages/Main/Home/Home";
@@ -80,6 +81,14 @@ const routes = createBrowserRouter([
         element: (
           <EmployerRoute>
             <AddJob />
+          </EmployerRoute>
+        ),
+      },
+      {
+        path: "manage-jobs",
+        element: (
+          <EmployerRoute>
+            <ManageJobs />
           </EmployerRoute>
         ),
       },

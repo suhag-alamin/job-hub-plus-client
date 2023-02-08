@@ -21,7 +21,7 @@ import { toast } from "react-hot-toast";
 import { TiDelete } from "react-icons/ti";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { usePostJobMutation } from "../../features/job/jobApi";
+import { usePostJobMutation } from "../../../features/job/jobApi";
 
 const AddJob = () => {
   const { companyName, employeeRange, email, companyWebsite } = useSelector(

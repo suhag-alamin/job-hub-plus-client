@@ -1,13 +1,13 @@
 import { Box, Container, LinearProgress, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
-import JobTable from "../../components/reuseable/JobTable";
-import { useGetAppliedJobsByEmailQuery } from "../../features/job/jobApi";
+import JobTable from "../../../components/reuseable/JobTable";
+import { useGetPostedJobsByEmailQuery } from "../../../features/job/jobApi";
 
-const AppliedJobs = () => {
+const ManageJobs = () => {
   const {
     user: { email },
   } = useSelector((state) => state.auth);
-  const { data, isLoading } = useGetAppliedJobsByEmailQuery(email);
+  const { data, isLoading } = useGetPostedJobsByEmailQuery(email);
 
   if (isLoading) {
     return <LinearProgress />;
@@ -28,10 +28,10 @@ const AppliedJobs = () => {
                 color="secondary"
                 variant="h3"
               >
-                Applied Jobs
+                Manage Jobs
               </Typography>
             </Box>
-            <JobTable jobs={data?.data} type="appliedJob" />
+            <JobTable jobs={data?.data} type="manageJobs" />
           </>
         ) : (
           <Typography
@@ -47,4 +47,4 @@ const AppliedJobs = () => {
   );
 };
 
-export default AppliedJobs;
+export default ManageJobs;

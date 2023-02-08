@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import AddJob from "../pages/Dashboard/AddJob";
-import AppliedJobs from "../pages/Dashboard/AppliedJobs";
+import AppliedJobs from "../pages/Dashboard/Candidate/AppliedJobs";
+import AddJob from "../pages/Dashboard/Employer/AddJob";
 
 const MainDashboard = () => {
   const {

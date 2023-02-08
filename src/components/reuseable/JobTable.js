@@ -78,18 +78,20 @@ const JobTable = ({ jobs, type }) => {
                   Company Name
                 </Typography>
               </TableCell>
-              <TableCell sx={{ p: 1 }} align="center">
-                <Typography
-                  sx={{
-                    color: "info.main",
-                    fontWeight: 500,
-                    fontSize: { xs: 16, md: 20 },
-                  }}
-                  variant="subtitle1"
-                >
-                  Company Website
-                </Typography>
-              </TableCell>
+              {type !== "postedJobs" && (
+                <TableCell sx={{ p: 1 }} align="center">
+                  <Typography
+                    sx={{
+                      color: "info.main",
+                      fontWeight: 500,
+                      fontSize: { xs: 16, md: 20 },
+                    }}
+                    variant="subtitle1"
+                  >
+                    Company Website
+                  </Typography>
+                </TableCell>
+              )}
               <TableCell sx={{ p: 1 }} align="center">
                 <Typography
                   sx={{
@@ -102,6 +104,34 @@ const JobTable = ({ jobs, type }) => {
                   Employment Type
                 </Typography>
               </TableCell>
+              {type === "manageJobs" && (
+                <TableCell sx={{ p: 1 }} align="center">
+                  <Typography
+                    sx={{
+                      color: "info.main",
+                      fontWeight: 500,
+                      fontSize: { xs: 16, md: 20 },
+                    }}
+                    variant="subtitle1"
+                  >
+                    Resume
+                  </Typography>
+                </TableCell>
+              )}
+              {type === "manageJobs" && (
+                <TableCell sx={{ p: 1 }} align="center">
+                  <Typography
+                    sx={{
+                      color: "info.main",
+                      fontWeight: 500,
+                      fontSize: { xs: 16, md: 20 },
+                    }}
+                    variant="subtitle1"
+                  >
+                    Total candidates
+                  </Typography>
+                </TableCell>
+              )}
               {type === "appliedJobs" && (
                 <TableCell sx={{ p: 1 }} align="center">
                   <Typography
@@ -147,11 +177,17 @@ const JobTable = ({ jobs, type }) => {
                 <TableCell sx={{ p: 1 }} align="center">
                   {job.companyName}
                 </TableCell>
-                <TableCell sx={{ p: 1 }} align="center">
-                  <a target="_blank" rel="noreferrer" href={job.companyWebsite}>
-                    Company Website
-                  </a>
-                </TableCell>
+                {type !== "postedJobs" && (
+                  <TableCell sx={{ p: 1 }} align="center">
+                    <a
+                      target="_blank"
+                      rel="noreferrer"
+                      href={job.companyWebsite}
+                    >
+                      Company Website
+                    </a>
+                  </TableCell>
+                )}
                 <TableCell sx={{ p: 1 }} align="center">
                   {job.employmentType.toUpperCase()}
                 </TableCell>
@@ -165,22 +201,57 @@ const JobTable = ({ jobs, type }) => {
                     <Link to={`/job-details/${job._id}`}>View Job</Link>
                   </TableCell>
                 )}
-                {type === "appliedJobs" ? (
+                {type === "manageJobs" && (
+                  <TableCell sx={{ p: 1 }} align="center">
+                    {job?.applicants?.length > 0 ? (
+                      <a
+                        href={job?.resumeLink}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Resume
+                      </a>
+                    ) : (
+                      "X"
+                    )}
+                  </TableCell>
+                )}
+                {type === "manageJobs" && (
+                  <TableCell sx={{ p: 1 }} align="center">
+                    {job?.applicants?.length || 0}
+                  </TableCell>
+                )}
+                {type === "manageJobs" && (
+                  <TableCell align="center">
+                    <Button
+                      // onClick={() => handleCancelApplication(job._id)}
+                      sx={{ textTransform: "inherit" }}
+                      variant="outlined"
+                      color="error"
+                    >
+                      Cancel
+                    </Button>
+                  </TableCell>
+                )}
+                {type === "appliedJobs" && (
                   <TableCell align="center">
                     <Button
                       onClick={() => handleCancelApplication(job._id)}
                       sx={{ textTransform: "inherit" }}
                       variant="outlined"
+                      color="error"
                     >
                       Cancel
                     </Button>
                   </TableCell>
-                ) : (
+                )}
+                {type === "savedJobs" && (
                   <TableCell align="center">
                     <Button
                       onClick={() => dispatch(removeFromSaveJob(job._id))}
                       sx={{ textTransform: "inherit" }}
                       variant="outlined"
+                      color="error"
                     >
                       Remove
                     </Button>
