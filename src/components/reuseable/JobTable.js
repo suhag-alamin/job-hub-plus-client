@@ -13,13 +13,37 @@ import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { useCancelAppliedJobMutation } from "../../features/job/jobApi";
+import {
+  useCancelAppliedJobMutation,
+  useDeleteJobByIdMutation,
+} from "../../features/job/jobApi";
 import { removeFromSaveJob } from "../../features/job/jobSlice";
 
 const JobTable = ({ jobs, type }) => {
   const [cancelApplication, { isLoading, isError, isSuccess }] =
     useCancelAppliedJobMutation();
+  const [
+    deleteJob,
+    {
+      isLoading: deleteIsLoading,
+      isError: deleteIsError,
+      isSuccess: deleteIsSuccess,
+    },
+  ] = useDeleteJobByIdMutation();
+
   const dispatch = useDispatch();
+
+  // delete job
+  const handleDeleteJob = (id) => {
+    const confirm = window.confirm("Are you sure you want to remove?");
+    if (confirm) {
+      dispatch(deleteJob(id));
+    } else {
+      return;
+    }
+  };
+
+  // cancel application
   const handleCancelApplication = (id) => {
     const confirm = window.confirm("Are you sure you want to cancel?");
     if (confirm) {
@@ -29,13 +53,23 @@ const JobTable = ({ jobs, type }) => {
     }
   };
 
+  // handle status
+
   useEffect(() => {
     if (!isLoading && !isError && isSuccess) {
-      toast.success("Application cancelled successfully", { id: "cancel" });
+      toast.success("Application cancelled successfully!", { id: "cancel" });
     } else if (!isLoading && isError) {
       toast.error("Something went wrong", { id: "cancel" });
     }
   }, [isLoading, isError, isSuccess]);
+
+  useEffect(() => {
+    if (!deleteIsLoading && !deleteIsError && deleteIsSuccess) {
+      toast.success("Job removed successfully!", { id: "cancel" });
+    } else if (!deleteIsLoading && deleteIsError) {
+      toast.error("Something went wrong", { id: "cancel" });
+    }
+  }, [deleteIsLoading, deleteIsError, deleteIsSuccess]);
   return (
     <Box sx={{ overflowX: "hidden", width: { xs: 300, sm: 600, md: 1 } }}>
       <Paper sx={{ boxShadow: 2, borderRadius: 2, overflowX: "auto" }}>
@@ -78,7 +112,7 @@ const JobTable = ({ jobs, type }) => {
                   Company Name
                 </Typography>
               </TableCell>
-              {type !== "postedJobs" && (
+              {type !== "manageJobs" && (
                 <TableCell sx={{ p: 1 }} align="center">
                   <Typography
                     sx={{
@@ -114,7 +148,7 @@ const JobTable = ({ jobs, type }) => {
                     }}
                     variant="subtitle1"
                   >
-                    Resume
+                    Details
                   </Typography>
                 </TableCell>
               )}
@@ -177,7 +211,7 @@ const JobTable = ({ jobs, type }) => {
                 <TableCell sx={{ p: 1 }} align="center">
                   {job.companyName}
                 </TableCell>
-                {type !== "postedJobs" && (
+                {type !== "manageJobs" && (
                   <TableCell sx={{ p: 1 }} align="center">
                     <a
                       target="_blank"
@@ -203,17 +237,7 @@ const JobTable = ({ jobs, type }) => {
                 )}
                 {type === "manageJobs" && (
                   <TableCell sx={{ p: 1 }} align="center">
-                    {job?.applicants?.length > 0 ? (
-                      <a
-                        href={job?.resumeLink}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Resume
-                      </a>
-                    ) : (
-                      "X"
-                    )}
+                    Details
                   </TableCell>
                 )}
                 {type === "manageJobs" && (
@@ -224,12 +248,12 @@ const JobTable = ({ jobs, type }) => {
                 {type === "manageJobs" && (
                   <TableCell align="center">
                     <Button
-                      // onClick={() => handleCancelApplication(job._id)}
+                      onClick={() => handleDeleteJob(job._id)}
                       sx={{ textTransform: "inherit" }}
                       variant="outlined"
                       color="error"
                     >
-                      Cancel
+                      Remove
                     </Button>
                   </TableCell>
                 )}
