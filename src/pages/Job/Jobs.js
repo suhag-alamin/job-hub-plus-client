@@ -4,6 +4,7 @@ import JobCard from "../../components/Job/JobCard";
 import JobFilter from "../../components/Job/JobFilter";
 
 import { useGetJobsQuery } from "../../features/job/jobApi";
+import SearchBar from "../../components/reuseable/SearchBar";
 
 const Jobs = () => {
   const { data, isLoading, isError } = useGetJobsQuery();
@@ -162,9 +163,13 @@ const Jobs = () => {
       </Container>
       {/* jobs  */}
       <Container sx={{ py: 2 }}>
+        <Box>
+          <SearchBar />
+        </Box>
         <Typography sx={{ fontSize: 20, mb: 2 }} variant="h4">
           Available Jobs for you -
         </Typography>
+
         {content.length ? (
           content
         ) : (
