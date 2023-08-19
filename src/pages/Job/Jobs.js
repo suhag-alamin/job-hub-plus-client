@@ -10,6 +10,8 @@ const Jobs = () => {
   const { employmentType, postedTime, salaryRange, remote } = useSelector(
     (state) => state.filter
   );
+  const { searchJobs } = useSelector((state) => state.job);
+  console.log(searchJobs);
 
   // for postedTime filter
   const now = new Date();
@@ -32,28 +34,10 @@ const Jobs = () => {
   ).toISOString();
 
   let content;
-  if (isLoading) {
-    content = (
-      <Box>
-        <LinearProgress />
-      </Box>
-    );
-    return content;
-  } else if (!isLoading && isError) {
-    content = (
-      <Typography sx={{ textAlign: "center" }} variant="h5" color="error">
-        Something went wrong
-      </Typography>
-    );
-  } else if (data?.data?.length === 0 && !isLoading) {
-    content = (
-      <Typography sx={{ textAlign: "center" }} variant="h5" color="error">
-        No jobs found
-      </Typography>
-    );
-  } else if (data?.data?.length > 0 && !isLoading) {
+
+  if (searchJobs.length > 0) {
     if (employmentType === "all" || postedTime === "any-time") {
-      content = data?.data?.map((job) => <JobCard key={job._id} job={job} />);
+      content = searchJobs.map((job) => <JobCard key={job._id} job={job} />);
     }
     if (
       employmentType !== "all" ||
@@ -61,7 +45,7 @@ const Jobs = () => {
       remote ||
       salaryRange
     ) {
-      content = data?.data
+      content = searchJobs
         ?.filter((job) => {
           if (employmentType !== "all") {
             return job.employmentType === employmentType;
@@ -98,6 +82,75 @@ const Jobs = () => {
           return job;
         })
         ?.map((job) => <JobCard key={job._id} job={job} />);
+    }
+  } else {
+    if (isLoading) {
+      content = (
+        <Box>
+          <LinearProgress />
+        </Box>
+      );
+      return content;
+    } else if (!isLoading && isError) {
+      content = (
+        <Typography sx={{ textAlign: "center" }} variant="h5" color="error">
+          Something went wrong
+        </Typography>
+      );
+    } else if (data?.data?.length === 0 && !isLoading) {
+      content = (
+        <Typography sx={{ textAlign: "center" }} variant="h5" color="error">
+          No jobs found
+        </Typography>
+      );
+    } else if (data?.data?.length > 0 && !isLoading) {
+      if (employmentType === "all" || postedTime === "any-time") {
+        content = data?.data?.map((job) => <JobCard key={job._id} job={job} />);
+      }
+      if (
+        employmentType !== "all" ||
+        postedTime !== "any-time" ||
+        remote ||
+        salaryRange
+      ) {
+        content = data?.data
+          ?.filter((job) => {
+            if (employmentType !== "all") {
+              return job.employmentType === employmentType;
+            }
+            return job;
+          })
+          ?.filter((job) => {
+            if (postedTime === "last-day") {
+              return job.createdDate > twentyFourHoursAgo;
+            } else if (postedTime === "last-3-days") {
+              return job.createdDate > threeDaysAgo;
+            }
+            if (postedTime === "last-2-weeks") {
+              return job.createdDate > twoWeeksAgo;
+            } else if (postedTime === "last-month") {
+              return job.createdDate > oneMonthAgo;
+            }
+            return job;
+          })
+          ?.filter((job) => {
+            if (remote) {
+              return job?.workType === "remote";
+            }
+            return job;
+          })
+          ?.filter((job) => {
+            if (salaryRange.length > 0) {
+              if (salaryRange[0] === 500 && salaryRange[1] === 3000) return job;
+              return (
+                salaryRange[0] <= job?.salaryRange[0] &&
+                salaryRange[1] >= job?.salaryRange[1]
+              );
+            }
+            return job;
+          })
+          ?.map((job) => <JobCard key={job._id} job={job} />);
+      }
     }
   }
 

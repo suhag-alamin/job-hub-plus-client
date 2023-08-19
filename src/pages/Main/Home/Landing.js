@@ -1,13 +1,18 @@
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { gsap } from "gsap";
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { BiSearchAlt } from "react-icons/bi";
 import hero1 from "../../../assets/images/hero-01.jpg";
 import hero2 from "../../../assets/images/hero-02.jpg";
 import hero3 from "../../../assets/images/hero-03.jpg";
 import hero4 from "../../../assets/images/hero-04.jpg";
 import Badge from "../../../components/reuseable/Badge";
+import { useSearchJobsMutation } from "../../../features/job/jobApi";
 import homeStyles from "../../../styles/Home.module.scss";
+import { useDispatch } from "react-redux";
+import { setSearchJobs } from "../../../features/job/jobSlice";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 const Landing = () => {
   const keywords = [
@@ -76,6 +81,35 @@ const Landing = () => {
       document.removeEventListener("mousemove", movement);
     };
   }, []);
+
+  // * search jobs
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [searchJobs, { data, isSuccess }] = useSearchJobsMutation();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    console.log(searchTerm);
+    if (searchTerm) {
+      searchJobs(searchTerm);
+    }
+  };
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isSuccess && data?.data?.length > 0) {
+      dispatch(setSearchJobs(data?.data));
+      navigate(`/jobs`);
+    } else if (isSuccess && data?.data?.length === 0) {
+      toast.error("No job found", {
+        id: "search-error",
+      });
+    }
+  }, [data, isSuccess, dispatch, searchTerm, navigate]);
+
   return (
     <Box ref={el} sx={{ py: 14, px: { xs: 4, md: 8 } }}>
       <Grid
@@ -99,8 +133,13 @@ const Landing = () => {
             >
               Search your career opportunity <br /> through 12,800+ jobs
             </Typography>
-            <Box id="search-container" className={homeStyles.searchBox}>
+            <form
+              onSubmit={handleSearch}
+              id="search-container"
+              className={homeStyles.searchBox}
+            >
               <TextField
+                onChange={(e) => setSearchTerm(e.target.value)}
                 id="search"
                 label="Job title or Keyword"
                 variant="outlined"
@@ -112,10 +151,11 @@ const Landing = () => {
                 id="search-button"
                 sx={{ borderRadius: 8 }}
                 variant="contained"
+                type="submit"
               >
                 <BiSearchAlt />
               </Button>
-            </Box>
+            </form>
             <Box>
               <Typography
                 sx={{ fontSize: 20, fontWeight: 700, my: 2 }}

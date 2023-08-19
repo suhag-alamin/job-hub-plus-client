@@ -57,12 +57,20 @@ const jobApi = apiSlice.injectEndpoints({
       invalidatesTags: ["AppliedJobs"],
     }),
 
-    // get applicants by job user ids, ids is an array of user ids
+    // get applicants
     getApplicantsByJobUserIds: builder.mutation({
       query: (data) => ({
         url: "/applicants",
         method: "POST",
         body: data,
+      }),
+    }),
+
+    // search jobs
+    searchJobs: builder.mutation({
+      query: (searchTerm) => ({
+        url: `/search-jobs?searchTerm=${searchTerm}`,
+        method: "POST",
       }),
     }),
   }),
@@ -78,4 +86,5 @@ export const {
   useCancelAppliedJobMutation,
   useGetPostedJobsByEmailQuery,
   useGetApplicantsByJobUserIdsMutation,
+  useSearchJobsMutation,
 } = jobApi;
