@@ -5,6 +5,7 @@ import Apply from "../pages/Apply";
 import AppliedJobs from "../pages/Dashboard/Candidate/AppliedJobs";
 import SavedJobs from "../pages/Dashboard/Candidate/SavedJobs";
 import AddJob from "../pages/Dashboard/Employer/AddJob";
+import ManageJobDetails from "../pages/Dashboard/Employer/ManageJobDetails";
 import ManageJobs from "../pages/Dashboard/Employer/ManageJobs";
 import JobDetailsPage from "../pages/Job/JobDetailsPage";
 import Jobs from "../pages/Job/Jobs";
@@ -89,6 +90,14 @@ const routes = createBrowserRouter([
         element: (
           <EmployerRoute>
             <ManageJobs />
+          </EmployerRoute>
+        ),
+      },
+      {
+        path: "manage-jobs/:id",
+        element: (
+          <EmployerRoute>
+            <ManageJobDetails />
           </EmployerRoute>
         ),
       },

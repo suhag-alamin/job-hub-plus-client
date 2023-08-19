@@ -63,7 +63,7 @@ function Dashboard(props) {
       </Toolbar>
       <Divider />
 
-      <Box sx={{ py: 4 }}>
+      <Box sx={{ py: 4, height: "82%" }}>
         <ListItem color="primary">
           <ListItemIcon>
             <MdOutlineDashboard className={dashStyles.dashboardMenuIcon} />

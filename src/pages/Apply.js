@@ -27,8 +27,10 @@ const Apply = () => {
   const {
     user: { _id, email, firstName, lastName },
   } = useSelector((state) => state.auth);
-  const [applyJob, { isLoading, isError, isSuccess }] = useApplyJobMutation();
+  const [applyJob, { isLoading, isError, error, isSuccess }] =
+    useApplyJobMutation();
   const dispatch = useDispatch();
+  console.log(error);
 
   const { handleSubmit, register } = useForm({
     defaultValues: {

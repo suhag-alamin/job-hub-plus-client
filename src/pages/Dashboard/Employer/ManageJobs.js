@@ -1,5 +1,6 @@
 import { Box, Container, LinearProgress, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import JobTable from "../../../components/reuseable/JobTable";
 import { useGetPostedJobsByEmailQuery } from "../../../features/job/jobApi";
 
@@ -39,7 +40,8 @@ const ManageJobs = () => {
             variant="h3"
             color="error"
           >
-            No Applied Jobs
+            You have not posted any jobs yet!{" "}
+            <Link to="/dashboard/add-job">Post Job</Link>
           </Typography>
         )}
       </Container>

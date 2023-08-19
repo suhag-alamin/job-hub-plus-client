@@ -19,7 +19,7 @@ import {
 } from "../../features/job/jobApi";
 import { removeFromSaveJob } from "../../features/job/jobSlice";
 
-const JobTable = ({ jobs, type }) => {
+const JobDetailsTable = ({ jobs, type }) => {
   const [cancelApplication, { isLoading, isError, isSuccess }] =
     useCancelAppliedJobMutation();
   const [
@@ -306,4 +306,4 @@ const JobTable = ({ jobs, type }) => {
   );
 };
 
-export default JobTable;
+export default JobDetailsTable;
