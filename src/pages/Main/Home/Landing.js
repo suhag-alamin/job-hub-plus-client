@@ -1,4 +1,11 @@
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  LinearProgress,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { gsap } from "gsap";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { BiSearchAlt } from "react-icons/bi";
@@ -93,7 +100,7 @@ const Landing = () => {
     searchRef.current.value = keyword;
   };
 
-  const [searchJobs, { data, isSuccess }] = useSearchJobsMutation();
+  const [searchJobs, { data, isSuccess, isLoading }] = useSearchJobsMutation();
 
   const handleSearch = (e) => {
     const searchTerm = searchRef.current.value;
@@ -119,183 +126,186 @@ const Landing = () => {
   }, [data, isSuccess, dispatch, navigate]);
 
   return (
-    <Box ref={el} sx={{ py: 14, px: { xs: 4, md: 8 } }}>
-      <Grid
-        container
-        spacing={{ xs: 2, md: 3 }}
-        columns={{ xs: 2, sm: 4, md: 12 }}
-      >
-        <Grid item xs={2} sm={4} md={6}>
-          <Box sx={{ maxWidth: 500 }}>
-            <Typography
-              id="hero-title"
-              sx={{ fontSize: { xs: 30, md: 48 }, fontWeight: 700, my: 2 }}
-              variant="h1"
-            >
-              Find the perfect <br /> job for you
-            </Typography>
-            <Typography
-              id="hero-subtitle"
-              sx={{ fontSize: { xs: 16, md: 22 }, mb: 2 }}
-              variant="body1"
-            >
-              Search your career opportunity <br /> through 12,800+ jobs
-            </Typography>
-            <form
-              onSubmit={handleSearch}
-              id="search-container"
-              className={homeStyles.searchBox}
-            >
-              <TextField
-                inputRef={searchRef}
-                id="search"
-                label="Job title or Keyword"
-                variant="outlined"
-                fullWidth
-                type="search"
-                sx={{ borderRadius: "100px" }}
-              />
-              <Button
-                id="search-button"
-                sx={{ borderRadius: 8 }}
-                variant="contained"
-                type="submit"
-              >
-                <BiSearchAlt />
-              </Button>
-            </form>
-            <Box>
+    <div>
+      {isLoading && <LinearProgress />}
+      <Box ref={el} sx={{ py: 14, px: { xs: 4, md: 8 } }}>
+        <Grid
+          container
+          spacing={{ xs: 2, md: 3 }}
+          columns={{ xs: 2, sm: 4, md: 12 }}
+        >
+          <Grid item xs={2} sm={4} md={6}>
+            <Box sx={{ maxWidth: 500 }}>
               <Typography
-                sx={{ fontSize: 20, fontWeight: 700, my: 2 }}
-                variant="h2"
-                className="badge-container"
+                id="hero-title"
+                sx={{ fontSize: { xs: 30, md: 48 }, fontWeight: 700, my: 2 }}
+                variant="h1"
               >
-                Popular Search
+                Find the perfect <br /> job for you
               </Typography>
-              <Box sx={{ mt: 2, display: "flex", flexWrap: "wrap", gap: 1 }}>
-                {keywords.map((item) => (
-                  <div
-                    onClick={() => {
-                      handleKeywordClick(item);
-                    }}
-                    key={item}
+              <Typography
+                id="hero-subtitle"
+                sx={{ fontSize: { xs: 16, md: 22 }, mb: 2 }}
+                variant="body1"
+              >
+                Search your career opportunity <br /> through 12,800+ jobs
+              </Typography>
+              <form
+                onSubmit={handleSearch}
+                id="search-container"
+                className={homeStyles.searchBox}
+              >
+                <TextField
+                  inputRef={searchRef}
+                  id="search"
+                  label="Job title or Keyword"
+                  variant="outlined"
+                  fullWidth
+                  type="search"
+                  sx={{ borderRadius: "100px" }}
+                />
+                <Button
+                  id="search-button"
+                  sx={{ borderRadius: 8 }}
+                  variant="contained"
+                  type="submit"
+                >
+                  <BiSearchAlt />
+                </Button>
+              </form>
+              <Box>
+                <Typography
+                  sx={{ fontSize: 20, fontWeight: 700, my: 2 }}
+                  variant="h2"
+                  className="badge-container"
+                >
+                  Popular Search
+                </Typography>
+                <Box sx={{ mt: 2, display: "flex", flexWrap: "wrap", gap: 1 }}>
+                  {keywords.map((item) => (
+                    <div
+                      onClick={() => {
+                        handleKeywordClick(item);
+                      }}
+                      key={item}
+                    >
+                      <Badge className="badge">{item}</Badge>
+                    </div>
+                  ))}
+                </Box>
+              </Box>
+            </Box>
+          </Grid>
+          <Grid item xs={2} sm={4} md={6}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                gap: { xs: 2, md: 7 },
+              }}
+            >
+              <Box
+                sx={{
+                  borderRadius: 4,
+                  boxShadow: 2,
+                  py: 2,
+                  px: 2,
+                  bgcolor: "#fff",
+                  position: { xs: "inherit", md: "relative" },
+                  left: { xs: "inherit", md: "40%" },
+                  width: { xs: 1, md: 280 },
+                }}
+                className="statCard"
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <Typography
+                    sx={{ fontSize: 24, fontWeight: 700 }}
+                    variant="subtitle1"
+                    color="primary"
                   >
-                    <Badge className="badge">{item}</Badge>
-                  </div>
-                ))}
+                    319+
+                  </Typography>
+                  <Typography variant="body1">Job offers</Typography>
+                </Box>
+                <Typography variant="body1">In Business Development</Typography>
+              </Box>
+              <Box
+                sx={{
+                  borderRadius: 4,
+                  boxShadow: 2,
+                  py: 2,
+                  px: 2,
+                  bgcolor: "#fff",
+                  position: { xs: "inherit", md: "relative" },
+                  left: { xs: "inherit", md: "30%" },
+                  width: { xs: 1, md: 280 },
+                }}
+                className="statCard"
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <Typography
+                    sx={{ fontSize: 24, fontWeight: 700 }}
+                    variant="subtitle1"
+                    color="primary"
+                  >
+                    265+
+                  </Typography>
+                  <Typography variant="body1">Job offers</Typography>
+                </Box>
+                <Typography variant="body1">
+                  In Marketing & Communication
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  borderRadius: 4,
+                  boxShadow: 2,
+                  py: 2,
+                  px: 2,
+                  bgcolor: "#fff",
+                  position: { xs: "inherit", md: "relative" },
+                  left: { xs: "inherit", md: "20%" },
+                  width: { xs: 1, md: 280 },
+                }}
+                className="statCard"
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <Typography
+                    sx={{ fontSize: 24, fontWeight: 700 }}
+                    variant="subtitle1"
+                    color="primary"
+                  >
+                    324+
+                  </Typography>
+                  <Typography variant="body1">Job offers</Typography>
+                </Box>
+                <Typography variant="body1">In Project Management</Typography>
               </Box>
             </Box>
-          </Box>
+          </Grid>
         </Grid>
-        <Grid item xs={2} sm={4} md={6}>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              gap: { xs: 2, md: 7 },
-            }}
-          >
-            <Box
-              sx={{
-                borderRadius: 4,
-                boxShadow: 2,
-                py: 2,
-                px: 2,
-                bgcolor: "#fff",
-                position: { xs: "inherit", md: "relative" },
-                left: { xs: "inherit", md: "40%" },
-                width: { xs: 1, md: 280 },
-              }}
-              className="statCard"
-            >
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <Typography
-                  sx={{ fontSize: 24, fontWeight: 700 }}
-                  variant="subtitle1"
-                  color="primary"
-                >
-                  319+
-                </Typography>
-                <Typography variant="body1">Job offers</Typography>
-              </Box>
-              <Typography variant="body1">In Business Development</Typography>
-            </Box>
-            <Box
-              sx={{
-                borderRadius: 4,
-                boxShadow: 2,
-                py: 2,
-                px: 2,
-                bgcolor: "#fff",
-                position: { xs: "inherit", md: "relative" },
-                left: { xs: "inherit", md: "30%" },
-                width: { xs: 1, md: 280 },
-              }}
-              className="statCard"
-            >
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <Typography
-                  sx={{ fontSize: 24, fontWeight: 700 }}
-                  variant="subtitle1"
-                  color="primary"
-                >
-                  265+
-                </Typography>
-                <Typography variant="body1">Job offers</Typography>
-              </Box>
-              <Typography variant="body1">
-                In Marketing & Communication
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                borderRadius: 4,
-                boxShadow: 2,
-                py: 2,
-                px: 2,
-                bgcolor: "#fff",
-                position: { xs: "inherit", md: "relative" },
-                left: { xs: "inherit", md: "20%" },
-                width: { xs: 1, md: 280 },
-              }}
-              className="statCard"
-            >
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <Typography
-                  sx={{ fontSize: 24, fontWeight: 700 }}
-                  variant="subtitle1"
-                  color="primary"
-                >
-                  324+
-                </Typography>
-                <Typography variant="body1">Job offers</Typography>
-              </Box>
-              <Typography variant="body1">In Project Management</Typography>
-            </Box>
-          </Box>
-        </Grid>
-      </Grid>
-      <Box
-        sx={{
-          maxWidth: 672,
-          height: "80vh",
-          borderRadius: "0 0 9999px 9999px",
-          overflow: "hidden",
-          position: "absolute",
-          top: 0,
-          left: "50%",
-          transform: "translateX(-50%)",
-          zIndex: -1,
-          display: { xs: "none", md: "block" },
-        }}
-      >
-        <img id="hero1" src={hero1} alt="" className={homeStyles.heroImage} />
-        <img id="hero2" src={hero2} alt="" className={homeStyles.heroImage} />
-        <img id="hero3" src={hero3} alt="" className={homeStyles.heroImage} />
-        <img id="hero4" src={hero4} alt="" className={homeStyles.heroImage} />
+        <Box
+          sx={{
+            maxWidth: 672,
+            height: "80vh",
+            borderRadius: "0 0 9999px 9999px",
+            overflow: "hidden",
+            position: "absolute",
+            top: 0,
+            left: "50%",
+            transform: "translateX(-50%)",
+            zIndex: -1,
+            display: { xs: "none", md: "block" },
+          }}
+        >
+          <img id="hero1" src={hero1} alt="" className={homeStyles.heroImage} />
+          <img id="hero2" src={hero2} alt="" className={homeStyles.heroImage} />
+          <img id="hero3" src={hero3} alt="" className={homeStyles.heroImage} />
+          <img id="hero4" src={hero4} alt="" className={homeStyles.heroImage} />
+        </Box>
       </Box>
-    </Box>
+    </div>
   );
 };
 

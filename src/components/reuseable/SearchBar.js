@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Button, LinearProgress, TextField } from "@mui/material";
 import { useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
 import { BiSearchAlt } from "react-icons/bi";
@@ -11,7 +11,7 @@ import homeStyles from "../../styles/Home.module.scss";
 const SearchBar = () => {
   const searchRef = useRef(null);
 
-  const [searchJobs, { data, isSuccess }] = useSearchJobsMutation();
+  const [searchJobs, { data, isSuccess, isLoading }] = useSearchJobsMutation();
 
   const handleSearch = (e) => {
     const searchTerm = searchRef.current.value;
@@ -37,6 +37,7 @@ const SearchBar = () => {
   }, [data, isSuccess, dispatch, navigate]);
   return (
     <div>
+      {isLoading && <LinearProgress />}
       <form
         onSubmit={handleSearch}
         id="search-container"

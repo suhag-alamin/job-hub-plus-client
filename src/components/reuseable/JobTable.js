@@ -30,7 +30,6 @@ const JobTable = ({ jobs, type }) => {
       isSuccess: deleteIsSuccess,
     },
   ] = useDeleteJobByIdMutation();
-
   const dispatch = useDispatch();
 
   // delete job
@@ -224,9 +223,9 @@ const JobTable = ({ jobs, type }) => {
                 {type !== "manageJobs" && (
                   <TableCell sx={{ p: 1 }} align="center">
                     <a
+                      href={job?.companyWebsite}
                       target="_blank"
-                      rel="noreferrer"
-                      href={job.companyWebsite}
+                      rel="noopener noreferrer"
                     >
                       Company Website
                     </a>
