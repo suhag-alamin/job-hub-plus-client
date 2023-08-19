@@ -16,15 +16,14 @@ import { toast } from "react-hot-toast";
 
 const Landing = () => {
   const keywords = [
-    "Web Developer",
-    "Web Designer",
-    "Writer",
-    "Fullstack",
-    "Senior",
-    "Team Lead",
-    "Administration",
-    "SQA",
-    "Tester",
+    "Developer",
+    "React",
+    "Next.js",
+    "Full Stack Developer",
+    "Redux",
+    "Node.js",
+    "Express.js",
+    "MongoDB",
   ];
   const el = useRef();
   const tl = useRef();
@@ -84,16 +83,25 @@ const Landing = () => {
 
   // * search jobs
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedKeyword, setSelectedKeyword] = useState("");
+  const searchRef = useRef(null);
+
+  console.log(selectedKeyword);
+
+  const handleKeywordClick = (keyword) => {
+    setSelectedKeyword(keyword);
+    searchRef.current.value = keyword;
+  };
 
   const [searchJobs, { data, isSuccess }] = useSearchJobsMutation();
 
   const handleSearch = (e) => {
+    const searchTerm = searchRef.current.value;
     e.preventDefault();
-    console.log(searchTerm);
     if (searchTerm) {
       searchJobs(searchTerm);
     }
+    console.log(searchRef.current.value);
   };
 
   const dispatch = useDispatch();
@@ -108,7 +116,7 @@ const Landing = () => {
         id: "search-error",
       });
     }
-  }, [data, isSuccess, dispatch, searchTerm, navigate]);
+  }, [data, isSuccess, dispatch, navigate]);
 
   return (
     <Box ref={el} sx={{ py: 14, px: { xs: 4, md: 8 } }}>
@@ -139,7 +147,7 @@ const Landing = () => {
               className={homeStyles.searchBox}
             >
               <TextField
-                onChange={(e) => setSearchTerm(e.target.value)}
+                inputRef={searchRef}
                 id="search"
                 label="Job title or Keyword"
                 variant="outlined"
@@ -166,9 +174,14 @@ const Landing = () => {
               </Typography>
               <Box sx={{ mt: 2, display: "flex", flexWrap: "wrap", gap: 1 }}>
                 {keywords.map((item) => (
-                  <Badge key={item} className="badge">
-                    {item}
-                  </Badge>
+                  <div
+                    onClick={() => {
+                      handleKeywordClick(item);
+                    }}
+                    key={item}
+                  >
+                    <Badge className="badge">{item}</Badge>
+                  </div>
                 ))}
               </Box>
             </Box>
